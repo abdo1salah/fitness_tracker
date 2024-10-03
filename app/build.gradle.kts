@@ -69,6 +69,7 @@ dependencies {
     implementation (libs.retrofit.v290)
     implementation (libs.converter.gson)
     implementation (libs.okhttp)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Coroutines
     implementation (libs.kotlinx.coroutines.core)

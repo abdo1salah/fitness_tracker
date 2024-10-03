@@ -6,5 +6,5 @@ import retrofit2.http.Url
 
 interface WeatherCallable {
     @GET
-    fun getData(@Url url:String): Call<WeatherResponse>
+    suspend fun getData(@Url url:String): WeatherResponse
 }

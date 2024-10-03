@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.weatherapp.Api.WeatherCallable
 import com.example.weatherapp.Api.WeatherResponse
 import com.example.weatherapp.ui.theme.WeatherAppTheme
@@ -22,20 +25,36 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : ComponentActivity() {
-    lateinit var currentTemp:String
-    val url =
-        "/v1/forecast.json?key=9b2015cab9ff4b2099f214519240110&q=30.0444,31.2357&days=2&alerts=yes"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             WeatherAppTheme {
+                val weatherViewModel : WeatherViewModel = viewModel()
+                val temp = weatherViewModel.weatherData?.current?.temp_c.toString()
+                val tempF = weatherViewModel.weatherData?.current?.temp_f.toString()
+                val p = weatherViewModel.weatherData?.current?.is_day.toString()
+                val p2 = weatherViewModel.weatherData?.current?.feelslike_c.toString()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+                    Column {
                     Greeting(
-                        name =" loadData()",
+                        name =temp,
                         modifier = Modifier.padding(innerPadding)
                     )
+                    Greeting(
+                        name =tempF,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    Greeting(
+                        name =p,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    Greeting(
+                        name =p2,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
                 }
             }
         }
