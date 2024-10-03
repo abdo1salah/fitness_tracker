@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.weatherapp.Api.WeatherCallable
 import com.example.weatherapp.Api.WeatherResponse
+import com.example.weatherapp.Api.getEndPoint
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WeatherAppTheme {
+                //getEndPoint("61.5240","105.3188")
                 val weatherViewModel : WeatherViewModel = viewModel()
                 val temp = weatherViewModel.weatherData?.current?.temp_c.toString()
                 val tempF = weatherViewModel.weatherData?.current?.temp_f.toString()
