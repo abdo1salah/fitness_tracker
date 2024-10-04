@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,15 +30,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         setContent {
             WeatherAppTheme {
                 //getEndPoint("61.5240","105.3188")
                 val weatherViewModel : WeatherViewModel = viewModel()
-                val temp = weatherViewModel.weatherData?.current?.temp_c.toString()
-                val tempF = weatherViewModel.weatherData?.current?.temp_f.toString()
-                val p = weatherViewModel.weatherData?.current?.is_day.toString()
-                val p2 = weatherViewModel.weatherData?.current?.feelslike_c.toString()
+                val temp = weatherViewModel.casheddata?.current?.temp_c.toString()
+                val tempF = weatherViewModel.casheddata?.current?.temp_f.toString()
+                val p = weatherViewModel.casheddata?.current?.is_day.toString()
+                val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
+               val f= weatherViewModel.casheddata?.forecast?.forecastday?.get(0)?.day?.avgtemp_c.toString()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column {
                     Greeting(
@@ -75,7 +76,32 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun GreetingPreview() {
         WeatherAppTheme {
-            Greeting("Android")
+            val weatherViewModel: WeatherViewModel = viewModel()
+            val temp = weatherViewModel.casheddata?.current?.temp_c.toString()
+            val tempF = weatherViewModel.casheddata?.current?.temp_f.toString()
+            val p = weatherViewModel.casheddata?.current?.is_day.toString()
+            val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
+            val f: String = weatherViewModel.casheddata.toString()
+            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Column {
+                    Greeting(
+                        name = temp,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    Greeting(
+                        name = tempF,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    Greeting(
+                        name = p,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    Greeting(
+                        name = f,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+            }
         }
-    }
 }

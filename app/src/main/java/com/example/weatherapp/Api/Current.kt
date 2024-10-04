@@ -1,7 +1,10 @@
 package com.example.weatherapp.Api
 
+import androidx.room.Embedded
+
 data class Current(
     val cloud: Int,
+    @Embedded
     val condition: Condition,
     val feelslike_c: Double,
     val feelslike_f: Double,
