@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
                 val p = weatherViewModel.casheddata?.current?.is_day.toString()
                 val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
                val f= weatherViewModel.casheddata?.forecast?.forecastday?.get(0)?.day?.avgtemp_c.toString()
+                //val alert = weatherViewModel.casheddata?.alerts?.alert?.get(0)?.event
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column {
                     Greeting(
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     )
                     Greeting(
-                        name =p2,
+                        name =f,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
