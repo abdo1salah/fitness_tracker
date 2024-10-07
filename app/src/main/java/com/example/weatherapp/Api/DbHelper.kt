@@ -1,10 +1,9 @@
-package com.example.weatherapp
+package com.example.weatherapp.Api
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.weatherapp.Api.WeatherResponse
 
 
 @Database(entities = [WeatherResponse::class], version = 1)

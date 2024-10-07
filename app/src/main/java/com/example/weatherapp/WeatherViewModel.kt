@@ -7,12 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import com.example.weatherapp.Api.Alerts
-import com.example.weatherapp.Api.Current
-import com.example.weatherapp.Api.ENDPOINT
-import com.example.weatherapp.Api.WeatherApi
 import com.example.weatherapp.Api.WeatherResponse
+import com.example.weatherapp.repository.WeatherRepo
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(app: Application) : AndroidViewModel(app) {

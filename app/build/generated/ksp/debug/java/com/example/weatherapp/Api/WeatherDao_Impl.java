@@ -1,4 +1,4 @@
-package com.example.weatherapp;
+package com.example.weatherapp.Api;
 
 import android.database.Cursor;
 import android.os.CancellationSignal;
@@ -10,14 +10,6 @@ import androidx.room.RoomSQLiteQuery;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
-import com.example.weatherapp.Api.Alert;
-import com.example.weatherapp.Api.Alerts;
-import com.example.weatherapp.Api.Condition;
-import com.example.weatherapp.Api.Current;
-import com.example.weatherapp.Api.Forecast;
-import com.example.weatherapp.Api.Forecastday;
-import com.example.weatherapp.Api.Location;
-import com.example.weatherapp.Api.WeatherResponse;
 import java.lang.Class;
 import java.lang.Exception;
 import java.lang.Object;
