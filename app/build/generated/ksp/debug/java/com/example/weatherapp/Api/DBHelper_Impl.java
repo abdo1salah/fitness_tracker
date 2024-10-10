@@ -1,4 +1,4 @@
-package com.example.weatherapp;
+package com.example.weatherapp.Api;
 
 import androidx.annotation.NonNull;
 import androidx.room.DatabaseConfiguration;

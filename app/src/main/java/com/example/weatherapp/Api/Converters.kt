@@ -1,8 +1,6 @@
-package com.example.weatherapp
+package com.example.weatherapp.Api
 
 import androidx.room.TypeConverter
-import com.example.weatherapp.Api.Alert
-import com.example.weatherapp.Api.Forecastday
 import com.google.gson.Gson
 
 class Converters {

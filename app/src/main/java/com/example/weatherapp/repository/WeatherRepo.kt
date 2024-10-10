@@ -1,6 +1,7 @@
-package com.example.weatherapp
+package com.example.weatherapp.repository
 
 import android.content.Context
+import com.example.weatherapp.Api.DBHelper
 import com.example.weatherapp.Api.ENDPOINT
 import com.example.weatherapp.Api.WeatherApi
 import com.example.weatherapp.Api.WeatherResponse
