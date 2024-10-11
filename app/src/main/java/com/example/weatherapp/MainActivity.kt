@@ -25,14 +25,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.weatherapp.ui.theme.WeatherAppTheme
+import com.example.weatherapp.presentation.theme.WeatherAppTheme
+import com.example.weatherapp.util.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             WeatherAppTheme {
                 val viewModel : WeatherViewModel = viewModel()
