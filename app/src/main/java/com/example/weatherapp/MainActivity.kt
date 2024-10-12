@@ -34,7 +34,38 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             WeatherAppTheme {
+                val weatherViewModel: WeatherViewModel = viewModel()
+                val temp = weatherViewModel.casheddata?.current?.temp_c.toString()
+                val tempF = weatherViewModel.casheddata?.current?.temp_f.toString()
+                val p = weatherViewModel.casheddata?.current?.is_day.toString()
+                val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
+                val f: String = weatherViewModel.casheddata?.forecast?.forecastday?.get(0)?.day?.avgtemp_c.toString()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Column {
+                        Greeting(
+                            name = temp,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                        Greeting(
+                            name = tempF,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                        Greeting(
+                            name = p,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                        Greeting(
+                            name = f,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
+                }
+            }
+        }
+        }
+            /*WeatherAppTheme {
                 val viewModel : WeatherViewModel = viewModel()
                 //getEndPoint("61.5240","105.3188")
                 //val alert = weatherViewModel.casheddata?.alerts?.alert?.get(0)?.event
@@ -67,7 +98,7 @@ class MainActivity : ComponentActivity() {
                 }
                 }
             }
-        }
+        }*/
     }
 
 
@@ -111,4 +142,3 @@ class MainActivity : ComponentActivity() {
             }
             }
         }
-}

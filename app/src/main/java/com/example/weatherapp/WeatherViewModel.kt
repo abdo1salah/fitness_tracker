@@ -48,6 +48,9 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
 
     }
     init {
+        viewModelScope.launch {
+            casheddata = repo.getCashedData()
+        }
         refreshData()
     }
     /* var weatherData : WeatherResponse? by mutableStateOf(null)
