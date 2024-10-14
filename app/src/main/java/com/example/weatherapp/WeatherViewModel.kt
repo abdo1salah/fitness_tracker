@@ -1,6 +1,7 @@
 package com.example.weatherapp
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.compose.runtime.getValue
@@ -21,8 +22,12 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = WeatherRepo(app)
     var casheddata: WeatherResponse? by mutableStateOf(null)
     var searchData : List<SearchItem> by mutableStateOf(emptyList())
+
+
+
     var selectedWindSpeedUnit by mutableStateOf("Kilometers (km/h)")
     var selectedTempUnit by mutableStateOf("Celsius (°C)")
+
     private fun refreshData(){
         viewModelScope.launch {
             try {

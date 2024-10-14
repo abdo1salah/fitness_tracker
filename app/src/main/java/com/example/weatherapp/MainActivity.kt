@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,9 +34,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val sharedPref = this.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+
+            apply()
+        }
         setContent {
             WeatherAppTheme {
-                val viewModel : WeatherViewModel = viewModel()
+                SettingsScreen()
+            }
+        }
+                /*val viewModel : WeatherViewModel = viewModel()
                 //getEndPoint("61.5240","105.3188")
                 //val alert = weatherViewModel.casheddata?.alerts?.alert?.get(0)?.event
                 var search by remember {
@@ -67,7 +76,7 @@ class MainActivity : ComponentActivity() {
                 }
                 }
             }
-        }
+        }*/
     }
 
 

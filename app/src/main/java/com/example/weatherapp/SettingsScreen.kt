@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun SettingsScreen(viewModel: WeatherViewModel ) {
-    var city by remember { mutableStateOf("") }
-
+fun SettingsScreen() {
+    var viewModel: WeatherViewModel = viewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,19 +54,6 @@ fun SettingsScreen(viewModel: WeatherViewModel ) {
             selectedOption = viewModel.selectedWindSpeedUnit,
             onOptionSelected = { viewModel.selectedWindSpeedUnit = it }
         )
-
-        // Input for City
-        TextField(
-            value = city,
-            onValueChange = { city = it },
-            label = { Text("Enter City") }
-        )
-
-        // Button to Fetch Weather
-        Button(onClick = { }) {
-            Text("Get Weather")
-        }
-
 
     }
 }
@@ -101,12 +88,12 @@ fun DropdownSettingItem(
                 options
                     .forEach { option ->
                         DropdownMenuItem(
-                            text = { option },
+                            text = { Text(text = option,
+                                color = Color.Black) },
                             onClick = {
                                 onOptionSelected(option)
                                 expanded = false
-                            },
-                            modifier = Modifier.background(Color.LightGray),
+                            }
                         )
                     }
             }
@@ -115,4 +102,8 @@ fun DropdownSettingItem(
     }
 }
 
-
+@Preview(showBackground = true)
+@Composable
+fun SettingsPreview() {
+    SettingsScreen()
+}
