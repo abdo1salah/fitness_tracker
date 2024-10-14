@@ -194,14 +194,14 @@ fun CurrentWeather(cachedData: WeatherResponse) { // Use the correct type here
 
              //temp
                 Text(
-                    text = "${temp.toInt()}°C",
+                    text = "${temp.toInt()}°",
                     fontSize = 90.sp,
                     fontFamily = FontFamily.Serif,
                     color = MaterialTheme.colors.primary
                 )
                 //feels like
                 Text(
-                    text = "Feels like ${feelsLikeTemp.toInt()}°C",
+                    text = "Feels like ${feelsLikeTemp.toInt()}°",
                     fontSize = 16.sp,
                     color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier.padding(top = SMALL_MARGIN)

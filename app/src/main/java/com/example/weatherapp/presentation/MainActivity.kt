@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.presentation.MainScreen
 import com.example.weatherapp.presentation.theme.WeatherAppTheme
-import com.example.weatherapp.ui.HomeScreen
 import com.example.weatherapp.util.WeatherViewModel
 
 class MainActivity : ComponentActivity() {

@@ -1,23 +1,20 @@
-package com.example.weatherapp
+package com.example.weatherapp.util
 
 import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
-import android.provider.Settings.Global.getString
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.AndroidViewModel
 import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.data.SearchApi.SEARCHENDPOINT
 import com.example.weatherapp.data.SearchApi.SearchApi
 import com.example.weatherapp.data.SearchApi.SearchItem
 import com.example.weatherapp.data.SearchApi.getSearchEndPoint
-import com.example.weatherapp.data.model.Hour
 import com.example.weatherapp.data.repository.WeatherRepo
 import kotlinx.coroutines.launch
 

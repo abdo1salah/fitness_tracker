@@ -24,7 +24,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.navigation.NavItem
 import com.example.weatherapp.navigation.WeatherNavHost
-import com.example.weatherapp.util.WeatherViewModel
+
 
 
 @Composable
