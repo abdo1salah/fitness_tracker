@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,7 +23,7 @@ import androidx.navigation.compose.*
 fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home),
-        NavItem("Notification", Icons.Default.Notifications),
+        NavItem("Notification", Icons.Default.Search),
         NavItem("Settings", Icons.Default.Settings)
     )
     var selectedIndex by remember { mutableStateOf(0) }
@@ -44,7 +45,7 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                             selectedIndex = index
                             when (index) {
                                 0 -> navController.navigate("home")
-                                1 -> navController.navigate("notifications")
+                                1 -> navController.navigate("search")
                                 2 -> navController.navigate("settings")
                             }
                         },
@@ -66,7 +67,7 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") { HomeScreen() }
-            composable("notifications") { NotificationScreen() }
+            composable("search") { NotificationScreen() }
             composable("settings") { SettingsScreen() }
         }
     }
