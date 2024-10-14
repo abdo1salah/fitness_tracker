@@ -85,6 +85,13 @@ import com.example.weatherapp.util.Line
 import com.example.weatherapp.util.LoadingScreen
 import com.example.weatherapp.util.RequestState
 import com.example.weatherapp.util.formatDate
+
+@Composable
+fun SearchScreen() {
+    androidx.compose.material3.Text(text = "Search Screen", modifier = Modifier.fillMaxSize())
+}
+
+
 @Composable
 fun ListWeatherForecast(
     date: String,

@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui
+package com.example.weatherapp.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,83 +15,48 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.navigation.NavItem
+import com.example.weatherapp.navigation.WeatherBottomNavigationBar
+import com.example.weatherapp.navigation.WeatherNavHost
+import com.example.weatherapp.util.WeatherViewModel
 
 @Composable
 fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     val navItemList = listOf(
         NavItem("Home", Icons.Default.Home),
-        NavItem("Notification", Icons.Default.Notifications),
+        NavItem("Search", Icons.Default.Search),
         NavItem("Settings", Icons.Default.Settings)
     )
-    var selectedIndex by remember { mutableStateOf(0) }
+
+    val weatherViewModel: WeatherViewModel = viewModel()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            NavigationBar(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(Color.Black),
-                containerColor = Color.Transparent
-            ) {
-                navItemList.forEachIndexed { index, navItem ->
-                    NavigationBarItem(
-                        selected = selectedIndex == index,
-                        onClick = {
-                            selectedIndex = index
-                            when (index) {
-                                0 -> navController.navigate("home")
-                                1 -> navController.navigate("notifications")
-                                2 -> navController.navigate("settings")
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = navItem.icon,
-                                contentDescription = "Icon",
-                                tint = Color.White
-                            )
-                        },
-                    )
-                }
-            }
+            WeatherBottomNavigationBar(
+                navController = navController,
+                navItemList = navItemList,
+                currentDestination = currentDestination
+            )
         }
     ) { innerPadding ->
-        NavHost(
+        WeatherNavHost(
             navController = navController,
-            startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable("home") { HomeScreen() }
-            composable("notifications") { NotificationScreen() }
-            composable("settings") { SettingsScreen() }
-        }
+            modifier = Modifier.padding(innerPadding),
+            weatherViewModel = weatherViewModel
+        )
     }
-}
-
-
-@Composable
-fun HomeScreen() {
-
-    Text(text = "Home Screen", modifier = Modifier.fillMaxSize())
-}
-
-@Composable
-fun NotificationScreen() {
-    Text(text = "Notifications Screen", modifier = Modifier.fillMaxSize())
 }
 
 @Composable
 fun SettingsScreen() {
-    Text(text = "Settings Screen", modifier = Modifier.fillMaxSize())
-}
+    Text(text = "Settings Screen", modifier = Modifier.fillMaxSize())}
 
-@Preview
-@Composable
-private fun MainScreenPreview() {
-    val navController = rememberNavController()
-    MainScreen(navController)
-}
+
