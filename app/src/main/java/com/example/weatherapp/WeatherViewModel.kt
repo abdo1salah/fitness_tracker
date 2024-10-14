@@ -1,38 +1,72 @@
 package com.example.weatherapp
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.AndroidViewModel
+import com.example.weatherapp.Api.WeatherResponse
+import com.example.weatherapp.SearchApi.SEARCHENDPOINT
+import com.example.weatherapp.SearchApi.SearchApi
+import com.example.weatherapp.SearchApi.SearchData
+import com.example.weatherapp.SearchApi.SearchItem
+import com.example.weatherapp.SearchApi.getSearchEndPoint
+import com.example.weatherapp.repository.WeatherRepo
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class WeatherViewModel : ViewModel() {
-    var weatherResponse by mutableStateOf<WeatherResponse?>(null)
-    var selectedTempUnit by mutableStateOf("Celsius (°C)")
+class WeatherViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val repo = WeatherRepo(app)
+    var casheddata: WeatherResponse? by mutableStateOf(null)
+    var searchData : List<SearchItem> by mutableStateOf(emptyList())
     var selectedWindSpeedUnit by mutableStateOf("Kilometers (km/h)")
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.weatherapi.com/v1/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val api = retrofit.create(WeatherApiService::class.java)
-
-    fun fetchWeather(query: String) {
+    var selectedTempUnit by mutableStateOf("Celsius (°C)")
+    private fun refreshData(){
         viewModelScope.launch {
             try {
-                weatherResponse = api.getCurrentWeather("YOUR_API_KEY", query)
-            } catch (e: Exception) {
-                // Handle error
+                repo.refreshData()
             }
+            catch (e :Exception){
+                Log.d("trace",e.message.toString())
+            }
+
+            casheddata = repo.getCashedData()
         }
     }
 
-    fun convertTemperature(tempCelsius: Double): Double {
-        return if (selectedTempUnit == "Fahrenheit (°F)") tempCelsius * 9 / 5 + 32 else tempCelsius
-    }
-}
+    fun updateSearchData(search:String){
+        getSearchEndPoint(search)
+        viewModelScope.launch {
+            try {
+                searchData = SearchApi.searchService.getSearchData(SEARCHENDPOINT)
+            }
+            catch (e :Exception){
+                Log.d("trace",e.message.toString())
+            }
 
+        }
+
+    }
+    init {
+        viewModelScope.launch {
+            casheddata = repo.getCashedData()
+        }
+        refreshData()
+    }
+    /* var weatherData : WeatherResponse? by mutableStateOf(null)
+    private fun getWeatherData(){
+         viewModelScope.launch {
+             val result = WeatherApi.retrofitService.getData(ENDPOINT)
+             weatherData = result
+         }
+
+         }
+
+     init {
+         getWeatherData()
+     }*/
+
+
+}

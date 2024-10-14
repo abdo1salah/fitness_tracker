@@ -63,7 +63,7 @@ fun SettingsScreen(viewModel: WeatherViewModel ) {
         )
 
         // Button to Fetch Weather
-        Button(onClick = { viewModel.fetchWeather(city) }) {
+        Button(onClick = { viewModel.r }) {
             Text("Get Weather")
         }
 
@@ -120,11 +120,4 @@ fun DropdownSettingItem(
     }
 }
 
-
-
-@Preview(showBackground = true)
-@Composable
-fun SettingsPreview() {
-        SettingsScreen(viewModel =WeatherViewModel())
-}
 
