@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,6 +73,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation (libs.retrofit.v290)
+
+    implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation (libs.okhttp)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -84,9 +89,8 @@ dependencies {
 
     // Coroutine Lifecycle Scopes
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.androidx.lifecycle.runtime.ktx.v220)
-    //Roomdb
-
+    implementation (libs.androidx.lifecycle.runtime.ktx.v231)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
@@ -95,6 +99,8 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
 
     implementation (libs.androidx.datastore.preferences)
     // ConstraintLayout for Compose
