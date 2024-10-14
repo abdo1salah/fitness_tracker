@@ -72,6 +72,10 @@ dependencies {
     implementation (libs.okhttp)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    //coil
+    implementation (libs.coil)
+    implementation (libs.coil.compose)
+
     // Coroutines
     implementation (libs.kotlinx.coroutines.core)
     implementation (libs.kotlinx.coroutines.android)
@@ -89,6 +93,13 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+
+    implementation (libs.androidx.datastore.preferences)
+    // ConstraintLayout for Compose
+    implementation (libs.androidx.constraintlayout.compose)
+
+    implementation (libs.androidx.material )// For Material Design 2
+
 
 
 }

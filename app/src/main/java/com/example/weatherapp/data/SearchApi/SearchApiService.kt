@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.SearchApi
 
-import com.example.weatherapp.data.network.BASE_URL
+import com.example.weatherapp.Api.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

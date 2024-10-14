@@ -1,14 +1,9 @@
-package com.example.weatherapp.data.network
+package com.example.weatherapp.data.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.weatherapp.data.model.Alerts
-import com.example.weatherapp.data.model.Converters
-import com.example.weatherapp.data.model.Current
-import com.example.weatherapp.data.model.Forecast
-import com.example.weatherapp.data.model.Location
 
 @Entity(tableName = "weather")
 @TypeConverters(Converters::class)

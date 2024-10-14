@@ -1,10 +1,10 @@
 package com.example.weatherapp.data.repository
 
 import android.content.Context
+import com.example.weatherapp.Api.ENDPOINT
 import com.example.weatherapp.data.local.DBHelper
-import com.example.weatherapp.data.network.ENDPOINT
 import com.example.weatherapp.data.network.WeatherApi
-import com.example.weatherapp.data.network.WeatherResponse
+import com.example.weatherapp.data.model.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -22,3 +22,4 @@ class WeatherRepo(context: Context) {
         }
     }
 }
+
