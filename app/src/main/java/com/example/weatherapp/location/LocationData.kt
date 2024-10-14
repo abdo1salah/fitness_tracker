@@ -1,17 +1,16 @@
-package com.example.weatherapp
+package com.example.weatherapp.location
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.util.Log
-import android.widget.Button
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import com.example.weatherapp.R
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
