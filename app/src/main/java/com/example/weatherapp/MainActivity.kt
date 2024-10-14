@@ -34,11 +34,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val sharedPref = this.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-
-            apply()
-        }
         setContent {
             WeatherAppTheme {
                 SettingsScreen()
