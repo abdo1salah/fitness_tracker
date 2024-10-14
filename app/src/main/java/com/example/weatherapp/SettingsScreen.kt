@@ -63,16 +63,11 @@ fun SettingsScreen(viewModel: WeatherViewModel ) {
         )
 
         // Button to Fetch Weather
-        Button(onClick = { viewModel.r }) {
+        Button(onClick = { }) {
             Text("Get Weather")
         }
 
-        // Display Weather Data
-        viewModel.weatherResponse?.let { response ->
-            val temp = viewModel.convertTemperature(response.current.temp_c)
-            Text("Location: ${response.location.name}")
-            Text("Temperature: $temp ${viewModel.selectedTempUnit}")
-        }
+
     }
 }
 
