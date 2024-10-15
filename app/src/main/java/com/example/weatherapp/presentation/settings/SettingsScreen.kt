@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
@@ -37,11 +38,16 @@ fun SettingsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colors.background)
             .padding(56.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
-        Text(text = "Settings", fontSize = 36.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Settings",
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.primary)
 
         // Temperature Unit Dropdown
         DropdownSettingItem(
@@ -79,13 +85,16 @@ fun DropdownSettingItem(
         apply()}
     Column {
         Text(text = title,
-            fontSize = 24.sp)
+            fontSize = 24.sp,
+                    color = MaterialTheme.colors.primary)
         Box {
             Text(
                 text = selectedOption,
                 modifier = Modifier
                     .clickable { expanded = true }
                     .padding(8.dp)
+                    .background(MaterialTheme.colors.surface),
+                color =MaterialTheme.colors.primary
 
 
             )
