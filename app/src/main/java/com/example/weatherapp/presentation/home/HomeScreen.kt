@@ -40,11 +40,21 @@ import com.example.weatherapp.util.LoadingScreen
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
 
-    LaunchedEffect(Unit) {
-        viewModel.refreshData()
+    val cachedData = viewModel.casheddata
+    val location = cachedData?.location
+
+    location?.let {
+        val lat = it.lat
+        val lon = it.lon
+
+
+
+        LaunchedEffect(Unit) {
+            viewModel.fetchWeatherDataForLocation(lat.toString(), lon.toString())
+        }
     }
 
-    val cachedData = viewModel.casheddata
+
     val isLoading = cachedData == null
 
 
