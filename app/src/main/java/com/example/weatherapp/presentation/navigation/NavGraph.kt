@@ -33,6 +33,6 @@ fun WeatherNavHost(
     ) {
         composable("home") { HomeScreen(viewModel = weatherViewModel) }
         composable("search") { SearchScreen(viewModel = weatherViewModel) }
-        composable("settings") { SettingsScreen() }
+        composable("settings") { SettingsScreen(viewModel = weatherViewModel) }
     }
 }

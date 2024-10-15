@@ -2,6 +2,7 @@ package com.example.weatherapp.presentation.settings
 
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,8 +29,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.util.WeatherViewModel
 
 @Composable
-fun SettingsScreen() {
-    var viewModel: WeatherViewModel = viewModel()
+fun SettingsScreen(viewModel: WeatherViewModel) {
+
     val sharedPref = LocalContext.current.getSharedPreferences("prefs", Context.MODE_PRIVATE)
     viewModel.selectedTempUnit = sharedPref.getString("Temperature Unit","Celsius (°C)")!!
     viewModel.selectedWindSpeedUnit = sharedPref.getString("Wind Speed Unit","Kilometers (km/h)")!!
@@ -48,7 +49,9 @@ fun SettingsScreen() {
             title = "Temperature Unit",
             options = listOf("Celsius (°C)", "Fahrenheit (°F)"),
             selectedOption = viewModel.selectedTempUnit,
-            onOptionSelected = { viewModel.selectedTempUnit = it }
+            onOptionSelected = {
+                Log.d("trace", it)
+                viewModel.selectedTempUnit = it }
         )
 
         // Wind Speed Unit Dropdown

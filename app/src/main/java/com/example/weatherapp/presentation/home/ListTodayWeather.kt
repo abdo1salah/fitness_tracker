@@ -30,7 +30,8 @@ import com.example.weatherapp.util.WeatherViewModel
 @ExperimentalCoilApi
 @Composable
 fun ListTodayWeather(
-    forecast: Hour // Change the type to Hour
+    forecast: Hour,
+    viewModel: WeatherViewModel// Change the type to Hour
 ) {
     Card(
         shape = RoundedCornerShape(30.dp),
@@ -65,7 +66,7 @@ fun ListTodayWeather(
 
             // Display temperature
             Text(
-                text = "${forecast.temp_c.toInt()} $DEGREE", // Access temp from hour
+                text = "${if(viewModel.selectedTempUnit == "Celsius (°C)") forecast.temp_c.toInt() else forecast.temp_f.toInt() } $DEGREE", // Access temp from hour
                 color = MaterialTheme.colors.primaryVariant,
                 fontSize = 16.sp,
                 modifier = Modifier

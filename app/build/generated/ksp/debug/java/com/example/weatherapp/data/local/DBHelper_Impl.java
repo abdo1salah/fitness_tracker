@@ -34,9 +34,9 @@ public final class DBHelper_Impl extends DBHelper {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `weather` (`id` INTEGER NOT NULL, `alert` TEXT NOT NULL, `currentcloud` INTEGER NOT NULL, `currentfeelslike_c` REAL NOT NULL, `currentfeelslike_f` REAL NOT NULL, `currentgust_kph` REAL NOT NULL, `currenthumidity` INTEGER NOT NULL, `currentis_day` INTEGER NOT NULL, `currentprecip_in` REAL NOT NULL, `currentprecip_mm` REAL NOT NULL, `currentpressure_in` REAL NOT NULL, `currentpressure_mb` REAL NOT NULL, `currenttemp_c` REAL NOT NULL, `currenttemp_f` REAL NOT NULL, `currentuv` REAL NOT NULL, `currentvis_km` REAL NOT NULL, `currentwind_degree` INTEGER NOT NULL, `currentwind_kph` REAL NOT NULL, `currentwind_mph` REAL NOT NULL, `currentcode` INTEGER NOT NULL, `currenticon` TEXT NOT NULL, `currenttext` TEXT NOT NULL, `forecastforecastday` TEXT NOT NULL, `locationcountry` TEXT NOT NULL, `locationlat` REAL NOT NULL, `locationlocaltime` TEXT NOT NULL, `locationlocaltime_epoch` INTEGER NOT NULL, `locationlon` REAL NOT NULL, `locationname` TEXT NOT NULL, `locationregion` TEXT NOT NULL, `locationtz_id` TEXT NOT NULL, PRIMARY KEY(`id`))");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `weather` (`id` INTEGER NOT NULL, `alert` TEXT NOT NULL, `currentcloud` INTEGER NOT NULL, `currentfeelslike_c` REAL NOT NULL, `currentfeelslike_f` REAL NOT NULL, `currentgust_kph` REAL NOT NULL, `currenthumidity` INTEGER NOT NULL, `currentis_day` INTEGER NOT NULL, `currentprecip_in` REAL NOT NULL, `currentprecip_mm` REAL NOT NULL, `currentpressure_in` REAL NOT NULL, `currentpressure_mb` REAL NOT NULL, `currenttemp_c` REAL NOT NULL, `currenttemp_f` REAL NOT NULL, `currentuv` REAL NOT NULL, `currentvis_km` REAL NOT NULL, `currentvis_miles` REAL NOT NULL, `currentwind_degree` INTEGER NOT NULL, `currentwind_kph` REAL NOT NULL, `currentwind_mph` REAL NOT NULL, `currentcode` INTEGER NOT NULL, `currenticon` TEXT NOT NULL, `currenttext` TEXT NOT NULL, `forecastforecastday` TEXT NOT NULL, `locationcountry` TEXT NOT NULL, `locationlat` REAL NOT NULL, `locationlocaltime` TEXT NOT NULL, `locationlocaltime_epoch` INTEGER NOT NULL, `locationlon` REAL NOT NULL, `locationname` TEXT NOT NULL, `locationregion` TEXT NOT NULL, `locationtz_id` TEXT NOT NULL, PRIMARY KEY(`id`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '03041e4f2b1a4eee72d5b71a3a00c0be')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '71fc3af859573672ebf7cfd9bfc1307e')");
       }
 
       @Override
@@ -85,7 +85,7 @@ public final class DBHelper_Impl extends DBHelper {
       @NonNull
       public RoomOpenHelper.ValidationResult onValidateSchema(
           @NonNull final SupportSQLiteDatabase db) {
-        final HashMap<String, TableInfo.Column> _columnsWeather = new HashMap<String, TableInfo.Column>(31);
+        final HashMap<String, TableInfo.Column> _columnsWeather = new HashMap<String, TableInfo.Column>(32);
         _columnsWeather.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("alert", new TableInfo.Column("alert", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentcloud", new TableInfo.Column("currentcloud", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -102,6 +102,7 @@ public final class DBHelper_Impl extends DBHelper {
         _columnsWeather.put("currenttemp_f", new TableInfo.Column("currenttemp_f", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentuv", new TableInfo.Column("currentuv", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentvis_km", new TableInfo.Column("currentvis_km", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsWeather.put("currentvis_miles", new TableInfo.Column("currentvis_miles", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentwind_degree", new TableInfo.Column("currentwind_degree", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentwind_kph", new TableInfo.Column("currentwind_kph", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsWeather.put("currentwind_mph", new TableInfo.Column("currentwind_mph", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -128,7 +129,7 @@ public final class DBHelper_Impl extends DBHelper {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "03041e4f2b1a4eee72d5b71a3a00c0be", "61fc943200c90ca96ec91bcfb6f5f015");
+    }, "71fc3af859573672ebf7cfd9bfc1307e", "39ea00eafcba00e2839117a406c513c5");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

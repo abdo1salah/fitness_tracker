@@ -19,6 +19,7 @@ data class Current(
     val temp_f: Double,
     val uv: Double,
     val vis_km: Double,
+    val vis_miles: Double,
     val wind_degree: Int,
     val wind_kph: Double,
     val wind_mph: Double
