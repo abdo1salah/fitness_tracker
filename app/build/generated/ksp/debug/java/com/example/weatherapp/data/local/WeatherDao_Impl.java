@@ -47,7 +47,7 @@ public final class WeatherDao_Impl implements WeatherDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `weather` (`id`,`alert`,`currentcloud`,`currentfeelslike_c`,`currentfeelslike_f`,`currentgust_kph`,`currenthumidity`,`currentis_day`,`currentprecip_in`,`currentprecip_mm`,`currentpressure_in`,`currentpressure_mb`,`currenttemp_c`,`currenttemp_f`,`currentuv`,`currentvis_km`,`currentwind_degree`,`currentwind_kph`,`currentwind_mph`,`currentcode`,`currenticon`,`currenttext`,`forecastforecastday`,`locationcountry`,`locationlat`,`locationlocaltime`,`locationlocaltime_epoch`,`locationlon`,`locationname`,`locationregion`,`locationtz_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `weather` (`id`,`alert`,`currentcloud`,`currentfeelslike_c`,`currentfeelslike_f`,`currentgust_kph`,`currenthumidity`,`currentis_day`,`currentprecip_in`,`currentprecip_mm`,`currentpressure_in`,`currentpressure_mb`,`currenttemp_c`,`currenttemp_f`,`currentuv`,`currentvis_km`,`currentvis_miles`,`currentwind_degree`,`currentwind_kph`,`currentwind_mph`,`currentcode`,`currenticon`,`currenttext`,`forecastforecastday`,`locationcountry`,`locationlat`,`locationlocaltime`,`locationlocaltime_epoch`,`locationlon`,`locationname`,`locationregion`,`locationtz_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -72,25 +72,26 @@ public final class WeatherDao_Impl implements WeatherDao {
         statement.bindDouble(14, _tmpCurrent.getTemp_f());
         statement.bindDouble(15, _tmpCurrent.getUv());
         statement.bindDouble(16, _tmpCurrent.getVis_km());
-        statement.bindLong(17, _tmpCurrent.getWind_degree());
-        statement.bindDouble(18, _tmpCurrent.getWind_kph());
-        statement.bindDouble(19, _tmpCurrent.getWind_mph());
+        statement.bindDouble(17, _tmpCurrent.getVis_miles());
+        statement.bindLong(18, _tmpCurrent.getWind_degree());
+        statement.bindDouble(19, _tmpCurrent.getWind_kph());
+        statement.bindDouble(20, _tmpCurrent.getWind_mph());
         final Condition _tmpCondition = _tmpCurrent.getCondition();
-        statement.bindLong(20, _tmpCondition.getCode());
-        statement.bindString(21, _tmpCondition.getIcon());
-        statement.bindString(22, _tmpCondition.getText());
+        statement.bindLong(21, _tmpCondition.getCode());
+        statement.bindString(22, _tmpCondition.getIcon());
+        statement.bindString(23, _tmpCondition.getText());
         final Forecast _tmpForecast = entity.getForecast();
         final String _tmp_1 = __converters.foreCastDayJistToJson(_tmpForecast.getForecastday());
-        statement.bindString(23, _tmp_1);
+        statement.bindString(24, _tmp_1);
         final Location _tmpLocation = entity.getLocation();
-        statement.bindString(24, _tmpLocation.getCountry());
-        statement.bindDouble(25, _tmpLocation.getLat());
-        statement.bindString(26, _tmpLocation.getLocaltime());
-        statement.bindLong(27, _tmpLocation.getLocaltime_epoch());
-        statement.bindDouble(28, _tmpLocation.getLon());
-        statement.bindString(29, _tmpLocation.getName());
-        statement.bindString(30, _tmpLocation.getRegion());
-        statement.bindString(31, _tmpLocation.getTz_id());
+        statement.bindString(25, _tmpLocation.getCountry());
+        statement.bindDouble(26, _tmpLocation.getLat());
+        statement.bindString(27, _tmpLocation.getLocaltime());
+        statement.bindLong(28, _tmpLocation.getLocaltime_epoch());
+        statement.bindDouble(29, _tmpLocation.getLon());
+        statement.bindString(30, _tmpLocation.getName());
+        statement.bindString(31, _tmpLocation.getRegion());
+        statement.bindString(32, _tmpLocation.getTz_id());
       }
     };
   }
@@ -141,6 +142,7 @@ public final class WeatherDao_Impl implements WeatherDao {
           final int _cursorIndexOfTempF = CursorUtil.getColumnIndexOrThrow(_cursor, "currenttemp_f");
           final int _cursorIndexOfUv = CursorUtil.getColumnIndexOrThrow(_cursor, "currentuv");
           final int _cursorIndexOfVisKm = CursorUtil.getColumnIndexOrThrow(_cursor, "currentvis_km");
+          final int _cursorIndexOfVisMiles = CursorUtil.getColumnIndexOrThrow(_cursor, "currentvis_miles");
           final int _cursorIndexOfWindDegree = CursorUtil.getColumnIndexOrThrow(_cursor, "currentwind_degree");
           final int _cursorIndexOfWindKph = CursorUtil.getColumnIndexOrThrow(_cursor, "currentwind_kph");
           final int _cursorIndexOfWindMph = CursorUtil.getColumnIndexOrThrow(_cursor, "currentwind_mph");
@@ -195,6 +197,8 @@ public final class WeatherDao_Impl implements WeatherDao {
             _tmpUv = _cursor.getDouble(_cursorIndexOfUv);
             final double _tmpVis_km;
             _tmpVis_km = _cursor.getDouble(_cursorIndexOfVisKm);
+            final double _tmpVis_miles;
+            _tmpVis_miles = _cursor.getDouble(_cursorIndexOfVisMiles);
             final int _tmpWind_degree;
             _tmpWind_degree = _cursor.getInt(_cursorIndexOfWindDegree);
             final double _tmpWind_kph;
@@ -209,7 +213,7 @@ public final class WeatherDao_Impl implements WeatherDao {
             final String _tmpText;
             _tmpText = _cursor.getString(_cursorIndexOfText);
             _tmpCondition = new Condition(_tmpCode,_tmpIcon,_tmpText);
-            _tmpCurrent = new Current(_tmpCloud,_tmpCondition,_tmpFeelslike_c,_tmpFeelslike_f,_tmpGust_kph,_tmpHumidity,_tmpIs_day,_tmpPrecip_in,_tmpPrecip_mm,_tmpPressure_in,_tmpPressure_mb,_tmpTemp_c,_tmpTemp_f,_tmpUv,_tmpVis_km,_tmpWind_degree,_tmpWind_kph,_tmpWind_mph);
+            _tmpCurrent = new Current(_tmpCloud,_tmpCondition,_tmpFeelslike_c,_tmpFeelslike_f,_tmpGust_kph,_tmpHumidity,_tmpIs_day,_tmpPrecip_in,_tmpPrecip_mm,_tmpPressure_in,_tmpPressure_mb,_tmpTemp_c,_tmpTemp_f,_tmpUv,_tmpVis_km,_tmpVis_miles,_tmpWind_degree,_tmpWind_kph,_tmpWind_mph);
             final Forecast _tmpForecast;
             final List<Forecastday> _tmpForecastday;
             final String _tmp_1;

@@ -134,7 +134,7 @@ fun CurrentWeather(cachedData: WeatherResponse,viewModel: WeatherViewModel) {
     val currentWeather = cachedData.current
     val location = cachedData.location?.name ?: ""
     val windSpeed = if(viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") currentWeather?.wind_kph else currentWeather.wind_mph
-    val visibility = currentWeather?.vis_km ?: 0.0
+    val visibility =if(viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") currentWeather?.vis_km else currentWeather.vis_miles
     val humidity = currentWeather?.humidity ?: 0
     val conditionText = currentWeather?.condition?.text ?: ""
     val feelsLikeTemp = if(viewModel.selectedTempUnit == "Celsius (°C)") currentWeather?.feelslike_c else currentWeather.feelslike_f
