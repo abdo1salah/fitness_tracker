@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 MainScreen(navController = navController)
                 val weatherViewModel : WeatherViewModel = viewModel()
+                val sharedPreferences= this.getSharedPreferences("prefs",Context.MODE_PRIVATE)
+                weatherViewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
+                weatherViewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
