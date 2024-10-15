@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -78,7 +79,10 @@ fun HomeScreen(viewModel: WeatherViewModel) {
 
                 else -> {
                     // Wrap CurrentWeather with background if needed
-
+                    Log.d(
+                        "trace",
+                        "weather model = $cachedData"
+                    )
                         CurrentWeather(cachedData = cachedData)
 
                 }
