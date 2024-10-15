@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.play.services.location)
+
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.firebase.database.ktx)
@@ -93,13 +95,14 @@ dependencies {
     implementation (libs.androidx.lifecycle.runtime.ktx.v231)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
 
 
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
+    implementation("androidx.compose.material3:material3:1.3.0")
     implementation(libs.kotlinx.coroutines.android)
     implementation (libs.androidx.lifecycle.viewmodel.compose)
 
