@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.firebase.database.ktx)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -96,8 +97,6 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
 
-
-
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.kotlinx.coroutines.android)
@@ -110,5 +109,7 @@ dependencies {
     implementation (libs.androidx.material )// For Material Design 2
 
 
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
+    implementation("androidx.compose.material3:material3:1.3.0")
 
 }
