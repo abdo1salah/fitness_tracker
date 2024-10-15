@@ -74,13 +74,4 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-    fun Context.getActivityOrNull(): Activity? {
-        var context = this
-        while (context is ContextWrapper) {
-            if (context is Activity) return context
-            context = context.baseContext
-        }
-
-        return null
-    }
 }
