@@ -1,13 +1,15 @@
-package com.example.weatherapp.navigation
+package com.example.weatherapp.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.weatherapp.presentation.SettingsScreen
+import com.example.weatherapp.presentation.settings.SettingsScreen
 import com.example.weatherapp.presentation.search.SearchScreen
+import com.example.weatherapp.presentation.settings.SettingsScreen
 import com.example.weatherapp.ui.HomeScreen
 import com.example.weatherapp.util.WeatherViewModel
 
@@ -17,6 +19,7 @@ object WeatherRoutes {
     const val SETTINGS = "settings"
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeatherNavHost(
     navController: NavHostController,
@@ -29,7 +32,7 @@ fun WeatherNavHost(
         modifier = modifier
     ) {
         composable("home") { HomeScreen(viewModel = weatherViewModel) }
-        composable("search") { SearchScreen() }
+        composable("search") { SearchScreen(viewModel = weatherViewModel) }
         composable("settings") { SettingsScreen() }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapp.navigation
+package com.example.weatherapp.presentation.navigation
 import androidx.compose.ui.graphics.vector.ImageVector
 
 

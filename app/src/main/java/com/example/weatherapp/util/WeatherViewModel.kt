@@ -55,24 +55,24 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
         }
 
     }
+
+    // Fetch weather data for a specific latitude and longitude
+    fun fetchWeatherDataForLocation(lat: String, lon: String) {
+        viewModelScope.launch {
+            try {
+                casheddata = repo.getWeatherDataForLocation(lat, lon)
+            } catch (e: Exception) {
+                Log.d("trace", e.message.toString())
+            }
+        }
+    }
     init {
         viewModelScope.launch {
             casheddata = repo.getCashedData()
         }
         refreshData()
     }
-    /* var weatherData : WeatherResponse? by mutableStateOf(null)
-    private fun getWeatherData(){
-         viewModelScope.launch {
-             val result = WeatherApi.retrofitService.getData(ENDPOINT)
-             weatherData = result
-         }
 
-         }
-
-     init {
-         getWeatherData()
-     }*/
 
     fun Context.getActivityOrNull(): Activity? {
         var context = this

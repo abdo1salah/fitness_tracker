@@ -1,10 +1,11 @@
 package com.example.weatherapp.data.repository
 
 import android.content.Context
-import com.example.weatherapp.Api.ENDPOINT
+import com.example.weatherapp.data.network.ENDPOINT
 import com.example.weatherapp.data.local.DBHelper
 import com.example.weatherapp.data.network.WeatherApi
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.network.changeWeatherLocation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -21,5 +22,14 @@ class WeatherRepo(context: Context) {
             db.weetherDao().insertWeatherData(weatherData)
         }
     }
-}
 
+    // Refresh weather data for a specific location
+    suspend fun getWeatherDataForLocation(lat: String, lon: String): WeatherResponse {
+        return withContext(Dispatchers.IO) {
+            changeWeatherLocation(lat, lon)
+            val locationWeatherData = WeatherApi.retrofitService.getData(ENDPOINT)
+            db.weetherDao().insertWeatherData(locationWeatherData)
+            locationWeatherData
+        }
+    }
+}

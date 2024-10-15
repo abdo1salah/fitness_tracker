@@ -1,4 +1,4 @@
-package com.example.weatherapp.navigation
+package com.example.weatherapp.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.weatherapp.navigation.NavItem
-import com.example.weatherapp.navigation.WeatherNavHost
+import com.example.weatherapp.presentation.navigation.NavItem
+import com.example.weatherapp.presentation.navigation.WeatherNavHost
 
 
 

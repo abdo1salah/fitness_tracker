@@ -20,9 +20,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.weatherapp.navigation.NavItem
-import com.example.weatherapp.navigation.WeatherBottomNavigationBar
-import com.example.weatherapp.navigation.WeatherNavHost
+import com.example.weatherapp.presentation.navigation.NavItem
+import com.example.weatherapp.presentation.navigation.WeatherBottomNavigationBar
+import com.example.weatherapp.presentation.navigation.WeatherNavHost
 import com.example.weatherapp.util.WeatherViewModel
 
 @Composable
@@ -55,8 +55,5 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
     }
 }
 
-@Composable
-fun SettingsScreen() {
-    Text(text = "Settings Screen", modifier = Modifier.fillMaxSize())}
 
 

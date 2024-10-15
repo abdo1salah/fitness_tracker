@@ -36,7 +36,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.weatherapp.R
@@ -124,7 +123,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
 
 
 @Composable
-fun CurrentWeather(cachedData: WeatherResponse) { // Use the correct type here
+fun CurrentWeather(cachedData: WeatherResponse) {
     val currentWeather = cachedData.current
     val location = cachedData.location?.name ?: ""
     val windSpeed = currentWeather?.wind_kph ?: 0.0

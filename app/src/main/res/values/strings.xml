@@ -17,7 +17,7 @@
 
     <!--  Search Screen  -->
     <string name="search">Search</string>
-    <string name="search_caption">Find the city name or state code that you want to know the detailed weather info at this time</string>
+    <string name="search_caption">Find the city name that you want to know the detailed weather info at this time</string>
     <string name="error">Error</string>
     <string name="invalid_city">You\'ve entered invalid city name, try search again with correct name</string>
     <string name="ok">OK</string>
