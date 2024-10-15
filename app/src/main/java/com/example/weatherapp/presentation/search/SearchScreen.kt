@@ -301,7 +301,7 @@ fun ListWeatherForecast(
         // Weather condition (centered next to icon)
         Text(
             text = condition,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             color = MaterialTheme.colors.primaryVariant,
             modifier = Modifier
                 .constrainAs(txtWeather) {
