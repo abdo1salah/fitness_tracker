@@ -109,7 +109,7 @@ dependencies {
     implementation (libs.androidx.material )// For Material Design 2
 
 
-    implementation ("com.google.android.gms:play-services-location:21.3.0")
-    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation (libs.play.services.location)
+    implementation(libs.material3)
 
 }
