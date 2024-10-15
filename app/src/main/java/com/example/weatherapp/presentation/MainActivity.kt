@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                   // HomeScreen(viewModel= weatherViewModel )
+                  //  HomeScreen(viewModel= weatherViewModel )
                 }
 
 

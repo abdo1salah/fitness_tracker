@@ -25,7 +25,6 @@ import com.example.weatherapp.data.local.Constants.SIZE
 import com.example.weatherapp.data.model.Forecastday
 import com.example.weatherapp.data.model.Hour
 import com.example.weatherapp.presentation.theme.SMALL_MARGIN
-import com.example.weatherapp.util.WeatherViewModel
 
 @ExperimentalCoilApi
 @Composable

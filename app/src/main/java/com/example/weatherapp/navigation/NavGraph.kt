@@ -1,11 +1,11 @@
 package com.example.weatherapp.navigation
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.weatherapp.location.LocationPermissionScreen
 import com.example.weatherapp.presentation.SettingsScreen
 import com.example.weatherapp.presentation.search.SearchScreen
 import com.example.weatherapp.ui.HomeScreen
@@ -23,13 +23,13 @@ fun WeatherNavHost(
     modifier: Modifier = Modifier,
     weatherViewModel: WeatherViewModel
 ) {
-   NavHost(
-        navController = navController,
-        startDestination = WeatherRoutes.HOME,
-        modifier = modifier
-    ) {
-        composable("home") { HomeScreen(viewModel = weatherViewModel) }
-        composable("search") { SearchScreen() }
-        composable("settings") { SettingsScreen() }
-    }
+        NavHost(
+            navController = navController,
+            startDestination = WeatherRoutes.HOME,
+            modifier = modifier
+        ) {
+            composable("home") { HomeScreen(viewModel = weatherViewModel) }
+            composable("search") { SearchScreen() }
+            composable("settings") { SettingsScreen() }
+        }
 }

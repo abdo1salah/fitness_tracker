@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.data.model.WeatherResponse
-import com.example.weatherapp.util.WeatherViewModel
 import com.example.weatherapp.presentation.theme.MEDIUM_MARGIN
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
