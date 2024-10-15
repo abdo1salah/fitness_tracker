@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             // Handle permission dialog
             if (isDialogShown.value) {
-                permissionDenied { isDialogShown.value = false }
+                permissionDenied { isDialogShown.value = true }
             }
             WeatherAppTheme {
                 weatherViewModel.refreshData()
@@ -102,8 +102,8 @@ class MainActivity : ComponentActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 6) // 6 AM
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 21) // 6 AM
+            set(Calendar.MINUTE, 44)
             set(Calendar.SECOND, 0)
         }
 
@@ -134,7 +134,7 @@ class MainActivity : ComponentActivity() {
                 if (isGranted) {
                     scheduleDailyNotification()
                 } else {
-                    isDialogShown.value = true
+                    isDialogShown.value = false
                 }
             }
         return launcher
@@ -173,69 +173,6 @@ class MainActivity : ComponentActivity() {
 
         NotificationManagerCompat.from(this).notify(99, notification)
     }
-
-    @SuppressLint("MissingPermission")
-    private fun sendNotificationWithWeatherData() {
-        val condition = weatherViewModel.casheddata?.current?.condition?.text
-        val location = weatherViewModel.casheddata?.location?.name
-        val region = weatherViewModel.casheddata?.location?.region
-        val maxtempC = weatherViewModel.casheddata?.forecast?.forecastday?.get(0)?.day?.maxtemp_c
-        val mintempC = weatherViewModel.casheddata?.forecast?.forecastday?.get(0)?.day?.mintemp_c
-        Log.d("WeatherData", "TempC: $mintempC, ")
-
-        val weatherDescription =
-            " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}C and lows to ${mintempC ?: "N/A"}C ,  ${condition ?: "N/A"}"
-        val intent = Intent(this, MainActivity::class.java) // Open MainActivity on notification tap
-        val pendingIntent =
-            PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_IMMUTABLE)
-
-        val notification = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.preview_cloudy)
-            .setContentTitle("Today")
-            .setContentText(weatherDescription)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
-
-        NotificationManagerCompat.from(this).notify(99, notification)
-    }
-
-    @Composable
-    fun permissionDenied(onDialogShown: () -> Unit) {
-        AlertDialog(
-            onDismissRequest = {},
-            confirmButton = {
-                TextButton(onClick = {
-                    val intent =
-                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", packageName, null)
-                        }
-                    startActivity(intent)
-                    onDialogShown()
-                }) {
-                    Text(text = "Allow")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = onDialogShown) {
-                    Text(text = "Cancel")
-                }
-            },
-            icon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "Warning",
-                    tint = Color.Unspecified
-                )
-            },
-            title = {
-                Text(text = "We need permission to send notifications")
-            },
-            text = { Text(text = "Please allow notifications to receive weather updates.") }
-        )
-    }
-
-
     class NotificationReceiver : BroadcastReceiver() {
         companion object {
             private const val REQUEST_CODE_MAIN_ACTIVITY = 101
