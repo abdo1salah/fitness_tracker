@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,12 +84,13 @@ import com.example.weatherapp.util.formatDate
 import kotlinx.coroutines.launch
 
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SearchScreen(viewModel: WeatherViewModel) {
     var searchKeyword by remember { mutableStateOf("") }
     val searchResults = viewModel.searchData
     val cachedData = viewModel.casheddata
+    val isSearchActive = remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -102,29 +104,42 @@ fun SearchScreen(viewModel: WeatherViewModel) {
                 onTextChange = { newText ->
                     searchKeyword = newText
                     viewModel.updateSearchData(newText)
+                    isSearchActive.value = newText.isNotEmpty()
                 },
                 onSearchClicked = {
                     if (searchKeyword.isNotEmpty()) {
-                        // Fetch weather data for the first result's lat/lon if results exist
                         val firstResult = searchResults.firstOrNull()
                         if (firstResult != null) {
                             val lat = firstResult.lat
                             val lon = firstResult.lon
                             viewModel.fetchWeatherDataForLocation(lat.toString(), lon.toString())
-                        } else {
-
+                            isSearchActive.value = false
                         }
                     }
                 }
             )
         }
 
-        if (searchKeyword.isNotEmpty()) {
+        // Show suggestions while typing
+        if (isSearchActive.value && searchResults.isNotEmpty()) {
+            items(searchResults) { result ->
+                SearchSuggestionItem(
+                    suggestion = result.name,
+                    onSuggestionClick = {
+                        searchKeyword = result.name
+                        viewModel.fetchWeatherDataForLocation(result.lat.toString(), result.lon.toString())
+                        isSearchActive.value = false
+                    }
+                )
+            }
+        }
+
+
+        if (!isSearchActive.value && searchKeyword.isNotEmpty()) {
             item {
                 CurrentWeather(viewModel)
             }
 
-            // Check if cachedData is available before displaying forecasts
             if (cachedData?.forecast?.forecastday.isNullOrEmpty()) {
                 item {
                     Text(
@@ -146,6 +161,18 @@ fun SearchScreen(viewModel: WeatherViewModel) {
             }
         }
     }
+}
+
+@Composable
+fun SearchSuggestionItem(suggestion: String, onSuggestionClick: () -> Unit) {
+    Text(
+        text = suggestion,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onSuggestionClick() }
+            .padding(16.dp),
+        color = MaterialTheme.colors.primaryVariant
+    )
 }
 
 
@@ -225,11 +252,11 @@ fun ListWeatherForecast(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp) // Padding for spacing
+            .padding(8.dp)
     ) {
         val (txtDateTime, imageWeather, txtWeather, txtMaxTemp, txtMinTemp, line) = createRefs()
 
-        // Parse the date to get the day of the week
+
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
         val parsedDate = LocalDate.parse(date, formatter)
         val dayOfWeek = parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())

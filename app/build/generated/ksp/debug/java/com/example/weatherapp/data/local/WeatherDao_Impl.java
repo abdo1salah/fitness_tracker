@@ -7,6 +7,7 @@ import androidx.room.CoroutinesRoom;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
@@ -40,6 +41,8 @@ public final class WeatherDao_Impl implements WeatherDao {
   private final EntityInsertionAdapter<WeatherResponse> __insertionAdapterOfWeatherResponse;
 
   private final Converters __converters = new Converters();
+
+  private final SharedSQLiteStatement __preparedStmtOfClearOldWeatherData;
 
   public WeatherDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
@@ -93,6 +96,14 @@ public final class WeatherDao_Impl implements WeatherDao {
         statement.bindString(31, _tmpLocation.getTz_id());
       }
     };
+    this.__preparedStmtOfClearOldWeatherData = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM weather";
+        return _query;
+      }
+    };
   }
 
   @Override
@@ -109,6 +120,29 @@ public final class WeatherDao_Impl implements WeatherDao {
           return Unit.INSTANCE;
         } finally {
           __db.endTransaction();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object clearOldWeatherData(final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfClearOldWeatherData.acquire();
+        try {
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
+        } finally {
+          __preparedStmtOfClearOldWeatherData.release(_stmt);
         }
       }
     }, $completion);

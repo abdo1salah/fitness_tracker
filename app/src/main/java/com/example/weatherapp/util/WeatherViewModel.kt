@@ -29,10 +29,11 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     var selectedTempUnit by mutableStateOf("")
 
 
-    private fun refreshData(){
+     fun refreshData(){
         viewModelScope.launch {
             try {
                 repo.refreshData()
+
             }
             catch (e :Exception){
                 Log.d("trace",e.message.toString())

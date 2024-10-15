@@ -60,6 +60,7 @@ fun SettingsScreen() {
             onOptionSelected = { viewModel.selectedWindSpeedUnit = it }
         )
 
+
     }
 }
 

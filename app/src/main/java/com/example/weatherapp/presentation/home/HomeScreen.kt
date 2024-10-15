@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui
+package com.example.weatherapp.presentation.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.data.model.Forecastday
 import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.util.WeatherViewModel
 import com.example.weatherapp.presentation.theme.MEDIUM_MARGIN
@@ -18,17 +17,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -37,11 +29,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.weatherapp.R
-import com.example.weatherapp.data.local.Constants.IMAGE_URL
-import com.example.weatherapp.data.local.Constants.SIZE
-import com.example.weatherapp.presentation.home.ListTodayWeather
 import com.example.weatherapp.presentation.search.ListWeatherForecast
 import com.example.weatherapp.presentation.theme.BIG_MARGIN
 import com.example.weatherapp.presentation.theme.LARGE_MARGIN
@@ -51,11 +39,15 @@ import com.example.weatherapp.util.Circle
 import com.example.weatherapp.util.LoadingScreen
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
-    // Directly access cachedData without using collectAsState
+
+    LaunchedEffect(Unit) {
+        viewModel.refreshData()
+    }
+
     val cachedData = viewModel.casheddata
     val isLoading = cachedData == null
 
-    // Outer container with background applied to the whole screen
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
         .background(MaterialTheme.colors.background),
