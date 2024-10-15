@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +28,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.presentation.theme.WeatherAppTheme
 import com.example.weatherapp.ui.HomeScreen
 import com.example.weatherapp.util.WeatherViewModel
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WeatherAppTheme {
-                val weatherViewModel : WeatherViewModel = viewModel()
+                val weatherViewModel : WeatherViewModel by viewModels()
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
@@ -54,19 +54,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        WeatherAppTheme {
-            val weatherViewModel: WeatherViewModel = viewModel()
-            val temp = weatherViewModel.casheddata?.current?.temp_c.toString()
-            val tempF = weatherViewModel.casheddata?.current?.temp_f.toString()
-            val p = weatherViewModel.casheddata?.current?.is_day.toString()
-            val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
-            val f: String = weatherViewModel.casheddata.toString()
 
-            }
-        }
 }
 
 //package com.example.weatherapp

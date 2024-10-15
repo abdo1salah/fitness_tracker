@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.WeatherApp" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.WeatherApp.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="windowSplashScreenBackground">@color/status_bar</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/preview_cloudy</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/status_bar</item>
+    </style>
 </resources>
