@@ -51,6 +51,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
@@ -86,7 +87,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchScreen(viewModel: WeatherViewModel) {
+fun SearchScreen() {
+    val viewModel: WeatherViewModel = viewModel()
     var searchKeyword by remember { mutableStateOf("") }
     val searchResults = viewModel.searchData
     val cachedData = viewModel.casheddata
