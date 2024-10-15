@@ -18,7 +18,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     var hasInternetConnection by mutableStateOf(true)
     var hasGps: Boolean by mutableStateOf(true)
     var hasPermission: Boolean by mutableStateOf(true)
-    var isRefershing = MutableStateFlow(false)
+    var firstTime:Boolean by mutableStateOf(false)
     fun refreshData() {
         viewModelScope.launch {
             try {
@@ -35,6 +35,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             casheddata = repo.getCashedData()
+            if(casheddata == null) firstTime = true
         }
     }
 
@@ -44,13 +45,5 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
         }
         hasPermission = CheckRequirements.hasPermission(app)
         refreshData()
-    }
-
-    fun refresh() {
-    isRefershing.update { true }
-        viewModelScope.launch {
-            refreshData()
-            isRefershing.update { false }
-        }
     }
 }
