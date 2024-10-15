@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.network
 
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -14,4 +15,4 @@ var ENDPOINT = "/v1/forecast.json?key=85a444f821fd430886f192139240510&q=30.0444,
 fun changeWeatherLocation(lat: String, long: String){
     ENDPOINT = "/v1/forecast.json?key=85a444f821fd430886f192139240510&q=${lat},${long}&days=3&alerts=yes"
 }
-fun getEndPoint(lat: Double,long: Double) = "/v1/forecast.json?key=85a444f821fd430886f192139240510&q=${lat},${long}&days=3&alerts=yes"
+fun getEndPoint(lat: Double,long: Double):String = "/v1/forecast.json?key=85a444f821fd430886f192139240510&q=${lat},${long}&days=3&alerts=yes"

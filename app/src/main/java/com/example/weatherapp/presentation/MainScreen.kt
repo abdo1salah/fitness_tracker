@@ -20,6 +20,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.location.LocationPermissionScreen
+import com.example.weatherapp.location.PermissionDeniedDialog
 import com.example.weatherapp.presentation.navigation.NavItem
 import com.example.weatherapp.presentation.navigation.WeatherBottomNavigationBar
 import com.example.weatherapp.presentation.navigation.WeatherNavHost
@@ -36,7 +38,19 @@ fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) 
     val weatherViewModel: WeatherViewModel = viewModel()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
+    var isDialogShown: Boolean by remember { mutableStateOf(false) }
+    if (isDialogShown) {
+        PermissionDeniedDialog { isDialogShown = false }
+    }
+    if (!weatherViewModel.hasPermission) {
+        LocationPermissionScreen(permissionGranted = {
+            isDialogShown = false
+            weatherViewModel.refreshData()
+            weatherViewModel.hasPermission = true
+        }, permissionDenied = {
+            isDialogShown = true
+        })
+    } else
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {

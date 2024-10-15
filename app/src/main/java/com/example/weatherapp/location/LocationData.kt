@@ -22,25 +22,34 @@ class LocationData(private val context: Context) {
 
     @SuppressLint("MissingPermission")
     suspend fun getLastLocation(): Flow<Location?> = callbackFlow {
-        if (
-            CheckRequirements.hasPermission(context)
-        ) {
-            if (!CheckRequirements.checkInternetState(context)) {
-                throw Exception("No Internet Connection")
-            } else if (!CheckRequirements.checkGpsState(context)) {
-                throw Exception("Gps is OFF")
-            } else
-                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if (location != null) {
-                        // Do something with the location
-                        Log.d("trace", "LocationData: ${location.latitude}, ${location.longitude}")
-                        launch {
-                            send(location)
+        Log.d("trace", "LocationData:")
+        try {
+            if (
+                CheckRequirements.hasPermission(context)
+            ) {
+                if (!CheckRequirements.checkInternetState(context)) {
+                    Log.d("trace", "LocationData: Internet")
+                    throw Exception("No Internet Connection")
+                } else if (!CheckRequirements.checkGpsState(context)) {
+                    Log.d("trace", "LocationData: Gps")
+                    throw Exception("Gps is OFF")
+                } else
+                    fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                        if (location != null) {
+                            // Do something with the location
+                            Log.d(
+                                "trace",
+                                "LocationData: ${location.latitude}, ${location.longitude}"
+                            )
+                            launch {
+                                send(location)
+                            }
                         }
 
                     }
-
-                }
+            }
+        }catch (e:Exception){
+            Log.d("trace","Error : ${e.message}")
         }
         awaitClose {
         }
