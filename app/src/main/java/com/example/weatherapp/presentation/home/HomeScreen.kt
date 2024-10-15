@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.weatherapp.R
@@ -50,15 +52,17 @@ import com.example.weatherapp.presentation.theme.VERY_SMALL_MARGIN
 import com.example.weatherapp.util.Circle
 import com.example.weatherapp.util.LoadingScreen
 @Composable
-fun HomeScreen(viewModel: WeatherViewModel) {
+fun HomeScreen(viewModel :WeatherViewModel) {
+
     // Directly access cachedData without using collectAsState
     val cachedData = viewModel.casheddata
     val isLoading = cachedData == null
-
+    Log.d("trace", viewModel.selectedTempUnit)
     // Outer container with background applied to the whole screen
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
-        .background(MaterialTheme.colors.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
         contentPadding = PaddingValues(bottom = 80.dp)
     ) {
         // Current Weather Section
@@ -79,7 +83,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                 else -> {
                     // Wrap CurrentWeather with background if needed
 
-                        CurrentWeather(cachedData = cachedData)
+                        CurrentWeather(cachedData = cachedData,viewModel)
 
                 }
             }
@@ -99,7 +103,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                     val filteredHours = firstForecastDay.hour.filterIndexed { index, _ -> index % 3 == 0 }
 
                     items(filteredHours) { hourForecast ->
-                        ListTodayWeather(forecast = hourForecast)
+                        ListTodayWeather(forecast = hourForecast,viewModel)
                     }
                 }
             }
@@ -108,13 +112,16 @@ fun HomeScreen(viewModel: WeatherViewModel) {
 
         // Daily Forecast Section
         items(cachedData?.forecast?.forecastday ?: emptyList()) { forecastDay ->
+
+            val maxTemp = if(viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.maxtemp_c  else forecastDay.day.maxtemp_f
+            val minTemp = if(viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.mintemp_c  else forecastDay.day.mintemp_f
             // Box to ensure background color and spacing for each item
            ListWeatherForecast(
                     date = forecastDay.date,
-                    maxTemp = forecastDay.day?.maxtemp_c ?: 0.0,
-                    minTemp = forecastDay.day?.mintemp_c ?: 0.0,
-                    condition = forecastDay.day?.condition?.text ?: "",
-                    iconUrl = forecastDay.day?.condition?.icon ?: ""
+                    maxTemp = maxTemp,
+                    minTemp = minTemp,
+                    condition = forecastDay.day.condition.text ,
+                    iconUrl = forecastDay.day.condition.icon
                 )
 
         }
@@ -123,16 +130,18 @@ fun HomeScreen(viewModel: WeatherViewModel) {
 
 
 @Composable
-fun CurrentWeather(cachedData: WeatherResponse) {
+fun CurrentWeather(cachedData: WeatherResponse,viewModel: WeatherViewModel) {
     val currentWeather = cachedData.current
     val location = cachedData.location?.name ?: ""
-    val windSpeed = currentWeather?.wind_kph ?: 0.0
+    val windSpeed = if(viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") currentWeather?.wind_kph else currentWeather.wind_mph
     val visibility = currentWeather?.vis_km ?: 0.0
     val humidity = currentWeather?.humidity ?: 0
     val conditionText = currentWeather?.condition?.text ?: ""
-    val feelsLikeTemp = currentWeather?.feelslike_c ?: 0.0
-    val temp = currentWeather?.temp_c ?: 0.0
+    val feelsLikeTemp = if(viewModel.selectedTempUnit == "Celsius (°C)") currentWeather?.feelslike_c else currentWeather.feelslike_f
+    val temp = if(viewModel.selectedTempUnit == "Celsius (°C)") currentWeather?.temp_c else currentWeather.temp_f
     val date = cachedData.location.localtime
+    val unitTemp = if(viewModel.selectedTempUnit == "Celsius (°C)") "°C" else "F"
+    val unitWindSpeed = if(viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") "Km/h" else "Miles/h"
 // Construct the image URL properly
     val image = currentWeather?.condition?.icon ?: ""
     val imageUrl = if (image.isNotEmpty()) {
@@ -238,7 +247,7 @@ fun CurrentWeather(cachedData: WeatherResponse) {
 
 //wind speed
             Text(
-                text = "$windSpeed km/h",
+                text = "$windSpeed $unitWindSpeed",
                 fontSize = 16.sp,
                 color = MaterialTheme.colors.primaryVariant,
                 modifier = Modifier
@@ -260,7 +269,7 @@ fun CurrentWeather(cachedData: WeatherResponse) {
             )
 //visibility
             Text(
-                text = "Visibility $visibility km",
+                text = "Visibility $visibility $unitWindSpeed",
                 fontSize = 16.sp,
                 color = MaterialTheme.colors.primaryVariant,
                 modifier = Modifier
