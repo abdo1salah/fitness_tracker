@@ -42,6 +42,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.location.CheckRequirements
 import com.example.weatherapp.location.RequestGpsAlertDialog
 import com.example.weatherapp.presentation.home.ListTodayWeather
 import com.example.weatherapp.presentation.search.ListWeatherForecast
@@ -58,6 +59,8 @@ import com.example.weatherapp.util.WeatherViewModel
 fun HomeScreen(viewModel: WeatherViewModel) {
     var isDialogGpsShown: Boolean by remember { mutableStateOf(true) }
     val context = LocalContext.current
+    viewModel.hasGps = CheckRequirements.checkGpsState(context)
+    viewModel.hasInternet = CheckRequirements.checkInternetState(context)
     if (!viewModel.hasInternet) {
         Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
     } else if (!viewModel.hasGps) {

@@ -22,7 +22,6 @@ class LocationData(private val context: Context) {
 
     @SuppressLint("MissingPermission")
     suspend fun getLastLocation(): Flow<Location?> = callbackFlow {
-        Log.d("trace", "LocationData:")
         if (
             CheckRequirements.hasPermission(context)
         ) {

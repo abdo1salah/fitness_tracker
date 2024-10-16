@@ -27,9 +27,6 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     var hasGps: Boolean by mutableStateOf(true)
     var selectedWindSpeedUnit by mutableStateOf("")
     var selectedTempUnit by mutableStateOf("")
-    fun updateGpsState(context: Context) {
-        hasGps = CheckRequirements.checkGpsState(context)
-    }
     fun refreshData() {
         viewModelScope.launch {
             try {
@@ -41,7 +38,6 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
                     else -> hasGps = false
                 }
             }
-
             casheddata = repo.getCashedData()
         }
     }

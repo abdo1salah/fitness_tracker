@@ -1,7 +1,11 @@
 package com.example.weatherapp
 
 import android.content.Context
+import android.content.IntentFilter
+import android.location.LocationManager
 import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
