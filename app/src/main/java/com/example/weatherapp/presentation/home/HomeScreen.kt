@@ -13,13 +13,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +60,7 @@ import com.example.weatherapp.util.Circle
 import com.example.weatherapp.util.LoadingScreen
 import com.example.weatherapp.util.WeatherViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
     var isDialogGpsShown: Boolean by remember { mutableStateOf(true) }
@@ -78,10 +84,14 @@ fun HomeScreen(viewModel: WeatherViewModel) {
     val isLoading = cachedData == null
     Log.d("trace", viewModel.selectedTempUnit)
     // Outer container with background applied to the whole screen
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isLoading,
+        onRefresh = { viewModel.refreshData() }
+    )
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background).pullRefresh(pullRefreshState),
         contentPadding = PaddingValues(bottom = 80.dp)
     ) {
         // Current Weather Section
@@ -147,7 +157,14 @@ fun HomeScreen(viewModel: WeatherViewModel) {
             )
 
         }
+
     }
+    PullRefreshIndicator(
+        refreshing = isLoading,
+        state = pullRefreshState,
+        modifier = Modifier.fillMaxWidth().wrapContentSize(Alignment.Center)
+//      backgroundColor = if (viewModel.state.value.isLoading) Color.Red else Color.Green,
+    )
 }
 
 
