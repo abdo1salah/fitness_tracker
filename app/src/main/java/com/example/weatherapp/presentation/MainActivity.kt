@@ -12,25 +12,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.weatherapp.location.CheckRequirements
 import com.example.weatherapp.presentation.MainScreen
 import com.example.weatherapp.presentation.theme.WeatherAppTheme
 import com.example.weatherapp.util.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
-    lateinit var weatherViewModel: WeatherViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         installSplashScreen()
-
         setContent {
-
             WeatherAppTheme {
+
                 val navController = rememberNavController()
                 MainScreen(navController = navController)
-                weatherViewModel = viewModel()
+                val weatherViewModel : WeatherViewModel = viewModel()
                 val sharedPreferences= this.getSharedPreferences("prefs",Context.MODE_PRIVATE)
                 weatherViewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
                 weatherViewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
@@ -40,6 +36,7 @@ class MainActivity : ComponentActivity() {
 
                    // HomeScreen(viewModel= weatherViewModel )
                 }
+
 
             }
         }
