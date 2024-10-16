@@ -29,12 +29,9 @@ class WeatherRepo(context: Context) {
     }*/
    suspend fun refreshData() {
        withContext(Dispatchers.IO) {
-           Log.d("trace","inside refresh data")
            val locationData = locationData.getLastLocation().first()
-           Log.d("trace",locationData!!.longitude.toString())
            val weatherData = WeatherApi.retrofitService.getData(getEndPoint(locationData!!.latitude,locationData.longitude))
            db.weetherDao().insertWeatherData(weatherData)
-           Log.d("trace","data is inserted")
        }
    }
 

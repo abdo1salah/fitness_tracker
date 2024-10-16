@@ -1,6 +1,7 @@
 package com.example.weatherapp.util
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,19 +23,21 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     var casheddata: WeatherResponse? by mutableStateOf(null)
     var searchData: List<SearchItem> by mutableStateOf(emptyList())
     var hasPermission: Boolean by mutableStateOf(true)
-
+    var hasInternet: Boolean by mutableStateOf(true)
+    var hasGps: Boolean by mutableStateOf(true)
     var selectedWindSpeedUnit by mutableStateOf("")
     var selectedTempUnit by mutableStateOf("")
-
-
-     fun refreshData() {
+    fun refreshData() {
         viewModelScope.launch {
             try {
                 repo.refreshData()
             } catch (e: Exception) {
                 Log.d("trace", e.message.toString())
+                when {
+                    e.message!!.contains("Internet") -> hasInternet = false
+                    else -> hasGps = false
+                }
             }
-
             casheddata = repo.getCashedData()
         }
     }

@@ -1,7 +1,11 @@
 package com.example.weatherapp
 
 import android.content.Context
+import android.content.IntentFilter
+import android.location.LocationManager
 import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,12 +23,9 @@ import com.example.weatherapp.util.WeatherViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         installSplashScreen()
-
         setContent {
-
             WeatherAppTheme {
 
                 val navController = rememberNavController()
