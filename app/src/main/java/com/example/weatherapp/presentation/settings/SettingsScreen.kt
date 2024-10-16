@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
@@ -38,11 +39,15 @@ fun SettingsScreen(viewModel: WeatherViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colors.background)
             .padding(56.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Settings", fontSize = 36.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Settings",
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.primary)
 
         // Temperature Unit Dropdown
         DropdownSettingItem(
@@ -75,46 +80,54 @@ fun DropdownSettingItem(
 ) {
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    val sharedPref = context.getSharedPreferences("prefs",Context.MODE_PRIVATE)
-    with (sharedPref.edit()) {
-        putString(title,selectedOption)
-        apply()}
+    val sharedPref = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+
+    with(sharedPref.edit()) {
+        putString(title, selectedOption)
+        apply()
+    }
+
     Column {
-        Text(text = title,
-            fontSize = 24.sp)
+        Text(
+            text = title,
+            fontSize = 24.sp,
+            color = MaterialTheme.colors.primary // Set title color to primary
+        )
+
         Box {
             Text(
                 text = selectedOption,
                 modifier = Modifier
                     .clickable { expanded = true }
                     .padding(8.dp)
-
-
+                    .background(MaterialTheme.colors.surface),
+                color = MaterialTheme.colors.primary // Set selected option text color to primary
             )
+
             DropdownMenu(
-                modifier = Modifier
-                    .background(Color.LightGray),
+                modifier = Modifier.background(Color.LightGray),
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                options
-                    .forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(text = option,
-                                color = Color.Black) },
-                            onClick = {
-                                with (sharedPref.edit()) {
-                                    putString(title,option)
-                                    apply()
-                                }
-                                onOptionSelected(option)
-                                expanded = false
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = option,
+                                color = Color.Black // Dropdown menu item color
+                            )
+                        },
+                        onClick = {
+                            with(sharedPref.edit()) {
+                                putString(title, option)
+                                apply()
                             }
-                        )
-                    }
+                            onOptionSelected(option)
+                            expanded = false
+                        }
+                    )
+                }
             }
-
         }
     }
 }
-

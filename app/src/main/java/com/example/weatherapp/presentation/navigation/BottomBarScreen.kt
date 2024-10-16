@@ -35,10 +35,12 @@ fun WeatherBottomNavigationBar(
 ) {
     NavigationBar(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)  // Set a fixed height for the bottom bar (56dp is a typical height for bottom nav bars)
-            .clip(RoundedCornerShape(20.dp)),  // Keep moderate corner rounding
-        containerColor = MaterialTheme.colors.surface
+            // .fillMaxWidth()
+            .height(100.dp)
+            // .clip(RoundedCornerShape(20.dp))
+            .background(MaterialTheme.colors.background),
+
+        containerColor = MaterialTheme.colors.onPrimary
     ) {
         navItemList.forEach { navItem ->
             NavigationBarItem(
@@ -54,7 +56,7 @@ fun WeatherBottomNavigationBar(
                         imageVector = navItem.icon,
                         contentDescription = navItem.name,
                         tint = if (currentDestination?.route == navItem.name.lowercase()) {
-                            MaterialTheme.colors.primary
+                            MaterialTheme.colors.surface
                         } else {
                             MaterialTheme.colors.onSurface
                         }
