@@ -102,8 +102,8 @@ class MainActivity : ComponentActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 21) // 6 AM
-            set(Calendar.MINUTE, 44)
+            set(Calendar.HOUR_OF_DAY, 1) // 6 AM
+            set(Calendar.MINUTE, 19)
             set(Calendar.SECOND, 0)
         }
 
@@ -164,7 +164,7 @@ class MainActivity : ComponentActivity() {
             PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.preview_cloudy)
+            .setSmallIcon(R.drawable.sun)
             .setContentTitle("${alertHeadLine}")
             .setContentText(weatherDescription)
             .setContentIntent(pendingIntent)
@@ -188,8 +188,8 @@ class MainActivity : ComponentActivity() {
                     val condition = weatherData.current?.condition?.text
                     val location = weatherData.location?.name
                     val region = weatherData.location?.region
-                    val maxtempC = weatherData.forecast?.forecastday?.get(0)?.day?.maxtemp_c
-                    val mintempC = weatherData.forecast?.forecastday?.get(0)?.day?.mintemp_c
+                    val maxtempC = weatherData.forecast?.forecastday?.get(0)?.day?.maxtemp_c?.toInt()
+                    val mintempC = weatherData.forecast?.forecastday?.get(0)?.day?.mintemp_c?.toInt()
                     val intent = Intent(context, MainActivity::class.java)
                     val pendingIntent = PendingIntent.getActivity(
                         context.applicationContext,
@@ -201,7 +201,7 @@ class MainActivity : ComponentActivity() {
                         " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}C and lows to ${mintempC ?: "N/A"}C ,  ${condition ?: "N/A"}"
 
                     val builder = NotificationCompat.Builder(context, "weather_alerts")
-                        .setSmallIcon(R.drawable.preview_cloudy)
+                        .setSmallIcon(R.drawable.sun)
                         .setContentTitle("Today's Weather")
                         .setContentText(weatherDescription)
                         .setContentIntent(pendingIntent)
