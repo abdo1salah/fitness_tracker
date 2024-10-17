@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -114,6 +113,41 @@ dependencies {
     implementation(libs.material3)
 
     implementation(libs.androidx.core.splashscreen)
+
+
+
+    implementation (libs.retrofit.v290)
+    implementation (libs.converter.gson)
+    implementation (libs.okhttp)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    //coil
+    implementation (libs.coil)
+    implementation (libs.coil.compose)
+
+    // Coroutines
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+
+    // Coroutine Lifecycle Scopes
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx.v220)
+    //Roomdb
+
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+
+
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
+
+    implementation (libs.androidx.datastore.preferences)
+    // ConstraintLayout for Compose
+    implementation (libs.androidx.constraintlayout.compose)
+
+    implementation (libs.androidx.material )// For Material Design 2
 
 
 

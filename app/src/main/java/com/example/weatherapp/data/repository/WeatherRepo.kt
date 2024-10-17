@@ -1,22 +1,15 @@
 package com.example.weatherapp.data.repository
 
 import android.content.Context
-import android.util.Log
-import com.example.weatherapp.data.network.ENDPOINT
 import com.example.weatherapp.data.local.DBHelper
 import com.example.weatherapp.data.network.WeatherApi
 import com.example.weatherapp.data.model.WeatherResponse
-import com.example.weatherapp.data.network.changeWeatherLocation
-import com.example.weatherapp.data.network.getEndPoint
-import com.example.weatherapp.location.LocationData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class WeatherRepo(context: Context) {
     private val db = DBHelper.getDBInstance(context)
     //val cashedData = db.weetherDao().getWeather()
-    private val locationData = LocationData(context)
     suspend fun getCashedData(): WeatherResponse {
         return db.weetherDao().getWeather()
     }
