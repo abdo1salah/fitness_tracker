@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 MainScreen(navController = navController)
                 val weatherViewModel : WeatherViewModel = viewModel()
-                val sharedPreferences= this.getSharedPreferences("prefs",Context.MODE_PRIVATE)
+                val sharedPreferences= LocalContext.current.getSharedPreferences("prefs", Context.MODE_PRIVATE)
                 weatherViewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
                 weatherViewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
                 Surface(

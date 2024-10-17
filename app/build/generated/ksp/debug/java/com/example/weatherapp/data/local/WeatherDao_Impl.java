@@ -1,7 +1,6 @@
 package com.example.weatherapp.data.local;
 
 import android.database.Cursor;
-import android.os.CancellationSignal;
 import androidx.annotation.NonNull;
 import androidx.room.CoroutinesRoom;
 import androidx.room.EntityInsertionAdapter;
@@ -31,6 +30,7 @@ import java.util.concurrent.Callable;
 import javax.annotation.processing.Generated;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
 
 @Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
@@ -116,11 +116,10 @@ public final class WeatherDao_Impl implements WeatherDao {
   }
 
   @Override
-  public Object getWeather(final Continuation<? super WeatherResponse> $completion) {
+  public Flow<WeatherResponse> getWeather() {
     final String _sql = "select * from weather";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
-    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<WeatherResponse>() {
+    return CoroutinesRoom.createFlow(__db, false, new String[] {"weather"}, new Callable<WeatherResponse>() {
       @Override
       @NonNull
       public WeatherResponse call() throws Exception {
@@ -245,10 +244,14 @@ public final class WeatherDao_Impl implements WeatherDao {
           return _result;
         } finally {
           _cursor.close();
-          _statement.release();
         }
       }
-    }, $completion);
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
   }
 
   @NonNull

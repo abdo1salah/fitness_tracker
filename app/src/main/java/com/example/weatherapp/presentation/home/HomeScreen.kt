@@ -30,6 +30,8 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +71,9 @@ import com.example.weatherapp.util.WeatherViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
+
+    val cachedData by viewModel.casheddata.collectAsState(initial = null)
+  //  Log.d("trace","in home ${ cachedData!!.location.localtime}")
     var isDialogGpsShown: Boolean by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val locationData = LocationData(context)
@@ -98,7 +103,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                 onDisabled = { intentSenderRequest ->
                     settingResultRequest.launch(intentSenderRequest)
                 },
-                onEnabled = {locationData.startLocationUpdates(viewModel)}
+                onEnabled = {viewModel.refreshData()}
             )
             isDialogGpsShown = true
         }
@@ -107,7 +112,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
 
     // Directly access cachedData without using collectAsState
    // val cachedData = viewModel.casheddata
-    val isLoading = viewModel.casheddata == null
+    val isLoading = cachedData == null
     Log.d("trace", viewModel.selectedTempUnit)
     // Outer container with background applied to the whole screen
     val pullRefreshState = rememberPullRefreshState(
@@ -129,18 +134,18 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                     LoadingScreen()
                 }
 
-                viewModel.casheddata == null -> {
+                cachedData == null -> {
                     ErrorUi()
                 }
 
-                viewModel.casheddata == null -> {
+                cachedData == null -> {
                     ErrorUi()
                 }
 
                 else -> {
                     // Wrap CurrentWeather with background if needed
 
-                    CurrentWeather(cachedData = viewModel.casheddata!!, viewModel)
+                    CurrentWeather(cachedData = cachedData!!, viewModel)
 
                 }
             }
@@ -152,7 +157,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
-                val forecastDays = viewModel.casheddata?.forecast?.forecastday
+                val forecastDays = cachedData?.forecast?.forecastday
                 val firstForecastDay = forecastDays?.first()
 
                 if (firstForecastDay != null) {
@@ -169,7 +174,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
         }
 
         // Daily Forecast Section
-        items(viewModel.casheddata?.forecast?.forecastday ?: emptyList()) { forecastDay ->
+        items(cachedData?.forecast?.forecastday ?: emptyList()) { forecastDay ->
 
             val maxTemp =
                 if (viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.maxtemp_c else forecastDay.day.maxtemp_f

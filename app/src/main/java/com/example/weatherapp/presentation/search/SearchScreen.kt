@@ -1,5 +1,6 @@
 package com.example.weatherapp.presentation.search
 
+import android.content.Context
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -33,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -91,8 +94,11 @@ fun SearchScreen() {
     val viewModel: WeatherViewModel = viewModel()
     var searchKeyword by remember { mutableStateOf("") }
     val searchResults = viewModel.searchData
-    val cachedData = viewModel.casheddata
+    val cachedData = viewModel.searchedData
     val isSearchActive = remember { mutableStateOf(false) }
+    val sharedPreferences= LocalContext.current.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+    viewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
+    viewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
 
     LazyColumn(
         modifier = Modifier
@@ -152,12 +158,17 @@ fun SearchScreen() {
                 }
             } else {
                 items(cachedData?.forecast?.forecastday ?: emptyList()) { forecastDay ->
+                    val maxTemp =
+                        if (viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.maxtemp_c else forecastDay.day.maxtemp_f
+                    val minTemp =
+                        if (viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.mintemp_c else forecastDay.day.mintemp_f
+                    // Box to ensure background color and spacing for each item
                     ListWeatherForecast(
                         date = forecastDay.date,
-                        maxTemp = forecastDay.day?.maxtemp_c ?: 0.0,
-                        minTemp = forecastDay.day?.mintemp_c ?: 0.0,
-                        condition = forecastDay.day?.condition?.text ?: "",
-                        iconUrl = forecastDay.day?.condition?.icon ?: ""
+                        maxTemp = maxTemp,
+                        minTemp = minTemp,
+                        condition = forecastDay.day.condition.text,
+                        iconUrl = forecastDay.day.condition.icon
                     )
                 }
             }
@@ -180,14 +191,14 @@ fun SearchSuggestionItem(suggestion: String, onSuggestionClick: () -> Unit) {
 
 @Composable
 fun CurrentWeather(viewModel: WeatherViewModel) {
-    val cachedData = viewModel.casheddata
+    val cachedData = viewModel.searchedData
     when {
         cachedData == null -> {
             LoadingScreen()
         }
         else -> {
 
-            WeatherData(cachedData)
+            WeatherData(cachedData,viewModel)
         }
     }
 }
@@ -355,17 +366,25 @@ fun ListWeatherForecast(
 @Composable
 fun WeatherData(
     cachedData: WeatherResponse
+    , viewModel: WeatherViewModel
 ) {
 
     val currentWeather = cachedData.current
     val location = cachedData.location?.name ?: ""
-    val windSpeed = currentWeather?.wind_kph ?: 0.0
-    val visibility = currentWeather?.vis_km ?: 0.0
+    val windSpeed =
+        if (viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") currentWeather?.wind_kph else currentWeather.wind_mph
+    val visibility =
+        if (viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") currentWeather?.vis_km else currentWeather.vis_miles
     val humidity = currentWeather?.humidity ?: 0
     val conditionText = currentWeather?.condition?.text ?: ""
-    val feelsLikeTemp = currentWeather?.feelslike_c ?: 0.0
-    val temp = currentWeather?.temp_c ?: 0.0
+    val feelsLikeTemp =
+        if (viewModel.selectedTempUnit == "Celsius (°C)") currentWeather?.feelslike_c else currentWeather.feelslike_f
+    val temp =
+        if (viewModel.selectedTempUnit == "Celsius (°C)") currentWeather?.temp_c else currentWeather.temp_f
     val date = cachedData.location.localtime
+    val unitTemp = if (viewModel.selectedTempUnit == "Celsius (°C)") "°C" else "F"
+    val unitWindSpeed =
+        if (viewModel.selectedWindSpeedUnit == "Kilometers (km/h)") "Km/h" else "Miles/h"
 // Construct the image URL properly
     val image = currentWeather?.condition?.icon ?: ""
     val imageUrl = if (image.isNotEmpty()) {
@@ -456,7 +475,7 @@ fun WeatherData(
 
 //speed
         Text(
-            text = "$windSpeed km/h",
+            text = "$windSpeed $unitWindSpeed",
             fontSize = 16.sp,
             color = MaterialTheme.colors.primaryVariant,
             modifier = Modifier
@@ -468,7 +487,7 @@ fun WeatherData(
 
 
         Text(
-            text = "Visibility $visibility km",
+            text = "Visibility $visibility $unitWindSpeed",
             fontSize = 16.sp,
             color = MaterialTheme.colors.primaryVariant,
             modifier = Modifier
