@@ -1,8 +1,6 @@
-package com.example.weatherapp.ui
+package com.example.weatherapp.presentation.home
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -28,9 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,8 +52,6 @@ import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.data.network.checkLocationSetting
 import com.example.weatherapp.location.CheckRequirements
 import com.example.weatherapp.location.LocationData
-import com.example.weatherapp.location.RequestGpsAlertDialog
-import com.example.weatherapp.presentation.home.ListTodayWeather
 import com.example.weatherapp.presentation.search.ListWeatherForecast
 import com.example.weatherapp.presentation.theme.BIG_MARGIN
 import com.example.weatherapp.presentation.theme.LARGE_MARGIN
