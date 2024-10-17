@@ -50,10 +50,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
@@ -269,11 +271,9 @@ fun ListWeatherForecast(
     ) {
         val (txtDateTime, imageWeather, txtWeather, txtMaxTemp, txtMinTemp, line) = createRefs()
 
-
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault())
         val parsedDate = LocalDate.parse(date, formatter)
         val dayOfWeek = parsedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-
 
         val iconUrlFull = if (iconUrl.isNotEmpty()) {
             "https:$iconUrl"
@@ -281,7 +281,7 @@ fun ListWeatherForecast(
             ""
         }
 
-
+        // Date text (day of the week)
         Text(
             text = dayOfWeek,
             fontSize = 14.sp,
@@ -293,30 +293,31 @@ fun ListWeatherForecast(
             }
         )
 
-        // Weather icon (centered)
+        // Weather icon (shifted closer to date)
         Image(
             painter = rememberAsyncImagePainter(model = iconUrlFull),
             contentDescription = null,
             modifier = Modifier
                 .size(40.dp)
                 .constrainAs(imageWeather) {
-                    start.linkTo(parent.start)
+                    start.linkTo(txtDateTime.end, MEDIUM_MARGIN)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                    // Centering the icon
-                    start.linkTo(parent.start)
-                    end.linkTo(txtMaxTemp.start, SMALL_MARGIN)
                 }
         )
 
-        // Weather condition (centered next to icon)
+        // Weather condition text (more flexible width)
         Text(
             text = condition,
             fontSize = 12.sp,
             color = MaterialTheme.colors.primaryVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .constrainAs(txtWeather) {
                     start.linkTo(imageWeather.end, SMALL_MARGIN)
+                    end.linkTo(txtMinTemp.start, SMALL_MARGIN)
+                    width = Dimension.fillToConstraints
                     top.linkTo(imageWeather.top)
                     bottom.linkTo(imageWeather.bottom)
                 }
