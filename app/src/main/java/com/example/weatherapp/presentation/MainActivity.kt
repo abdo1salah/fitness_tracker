@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,11 +9,8 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,23 +19,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.net.toUri
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.weatherapp.R
 import com.example.weatherapp.data.repository.WeatherRepo
+import com.example.weatherapp.permissionDenied
 import com.example.weatherapp.presentation.theme.WeatherAppTheme
 import com.example.weatherapp.util.WeatherViewModel
 import kotlinx.coroutines.CoroutineScope
