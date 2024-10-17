@@ -1,9 +1,12 @@
 package com.example.weatherapp.ui
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +28,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +51,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.network.checkLocationSetting
 import com.example.weatherapp.location.CheckRequirements
+import com.example.weatherapp.location.LocationData
 import com.example.weatherapp.location.RequestGpsAlertDialog
 import com.example.weatherapp.presentation.home.ListTodayWeather
 import com.example.weatherapp.presentation.search.ListWeatherForecast
@@ -63,25 +69,45 @@ import com.example.weatherapp.util.WeatherViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
-    var isDialogGpsShown: Boolean by remember { mutableStateOf(true) }
+    var isDialogGpsShown: Boolean by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    viewModel.hasGps = CheckRequirements.checkGpsState(context)
+    val locationData = LocationData(context)
     viewModel.hasInternet = CheckRequirements.checkInternetState(context)
+    viewModel.hasGps = CheckRequirements.checkGpsState(context)
+    val settingResultRequest = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK){
+            Log.d("appDebug", "Accepted, ${CheckRequirements.checkGpsState(context)}")
+            locationData.startLocationUpdates(viewModel)
+
+        }
+
+        else {
+            Log.d("appDebug", "Denied")
+
+        }
+    }
+    Log.d("trace","recompose")
     if (!viewModel.hasInternet) {
         Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
     } else if (!viewModel.hasGps) {
-        if (isDialogGpsShown)
-            RequestGpsAlertDialog(confirmButton = {
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                context.startActivity(intent)
-                isDialogGpsShown = false
-            }, dismissButton = {
-                isDialogGpsShown = false
-            })
+        if (!isDialogGpsShown){
+            checkLocationSetting(
+                context = context,
+                onDisabled = { intentSenderRequest ->
+                    settingResultRequest.launch(intentSenderRequest)
+                },
+                onEnabled = {locationData.startLocationUpdates(viewModel)}
+            )
+            isDialogGpsShown = true
+        }
+
     }
+
     // Directly access cachedData without using collectAsState
-    val cachedData = viewModel.casheddata
-    val isLoading = cachedData == null
+   // val cachedData = viewModel.casheddata
+    val isLoading = viewModel.casheddata == null
     Log.d("trace", viewModel.selectedTempUnit)
     // Outer container with background applied to the whole screen
     val pullRefreshState = rememberPullRefreshState(
@@ -91,28 +117,30 @@ fun HomeScreen(viewModel: WeatherViewModel) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background).pullRefresh(pullRefreshState),
+            .background(MaterialTheme.colors.background)
+            .pullRefresh(pullRefreshState),
         contentPadding = PaddingValues(bottom = 80.dp)
     ) {
         // Current Weather Section
+
         item {
             when {
                 isLoading -> {
                     LoadingScreen()
                 }
 
-                cachedData == null -> {
+                viewModel.casheddata == null -> {
                     ErrorUi()
                 }
 
-                cachedData.current == null -> {
+                viewModel.casheddata == null -> {
                     ErrorUi()
                 }
 
                 else -> {
                     // Wrap CurrentWeather with background if needed
 
-                    CurrentWeather(cachedData = cachedData, viewModel)
+                    CurrentWeather(cachedData = viewModel.casheddata!!, viewModel)
 
                 }
             }
@@ -124,7 +152,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
-                val forecastDays = cachedData?.forecast?.forecastday
+                val forecastDays = viewModel.casheddata?.forecast?.forecastday
                 val firstForecastDay = forecastDays?.first()
 
                 if (firstForecastDay != null) {
@@ -141,7 +169,7 @@ fun HomeScreen(viewModel: WeatherViewModel) {
         }
 
         // Daily Forecast Section
-        items(cachedData?.forecast?.forecastday ?: emptyList()) { forecastDay ->
+        items(viewModel.casheddata?.forecast?.forecastday ?: emptyList()) { forecastDay ->
 
             val maxTemp =
                 if (viewModel.selectedTempUnit == "Celsius (°C)") forecastDay.day.maxtemp_c else forecastDay.day.maxtemp_f
@@ -162,7 +190,9 @@ fun HomeScreen(viewModel: WeatherViewModel) {
     PullRefreshIndicator(
         refreshing = isLoading,
         state = pullRefreshState,
-        modifier = Modifier.fillMaxWidth().wrapContentSize(Alignment.Center)
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.Center)
 //      backgroundColor = if (viewModel.state.value.isLoading) Color.Red else Color.Green,
     )
 }

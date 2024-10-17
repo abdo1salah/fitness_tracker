@@ -39,6 +39,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             casheddata = repo.getCashedData()
+            Log.d("trace","cd")
         }
     }
 
@@ -71,7 +72,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
             casheddata = repo.getCashedData()
         }
         hasPermission = CheckRequirements.hasPermission(app)
-        refreshData()
+        //refreshData()
     }
 
 

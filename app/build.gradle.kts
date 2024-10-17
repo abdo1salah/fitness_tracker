@@ -110,9 +110,11 @@ dependencies {
 
 
     implementation (libs.play.services.location)
+
     implementation(libs.material3)
 
-    implementation (libs.androidx.core.splashscreen)
+    implementation(libs.androidx.core.splashscreen)
+
 
 
 }

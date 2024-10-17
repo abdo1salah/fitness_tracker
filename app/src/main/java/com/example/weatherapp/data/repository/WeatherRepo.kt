@@ -30,7 +30,7 @@ class WeatherRepo(context: Context) {
    suspend fun refreshData() {
        withContext(Dispatchers.IO) {
            val locationData = locationData.getLastLocation().first()
-           val weatherData = WeatherApi.retrofitService.getData(getEndPoint(locationData!!.latitude,locationData.longitude))
+           val weatherData = WeatherApi.retrofitService.getData(ENDPOINT)
            db.weetherDao().insertWeatherData(weatherData)
        }
    }
