@@ -36,7 +36,7 @@ fun permissionDenied(onDialogShown: () -> Unit) {
         },
         icon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.warning),
                 contentDescription = "Warning",
                 tint = Color.Unspecified
             )

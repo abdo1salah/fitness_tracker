@@ -37,7 +37,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.data.repository.WeatherRepo
 import com.example.weatherapp.presentation.theme.WeatherAppTheme
 import com.example.weatherapp.util.WeatherViewModel
@@ -102,8 +101,8 @@ class MainActivity : ComponentActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 21) // 6 AM
-            set(Calendar.MINUTE, 44)
+            set(Calendar.HOUR_OF_DAY, 6) // 6 AM
+            set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
 
@@ -164,7 +163,7 @@ class MainActivity : ComponentActivity() {
             PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(this, "1")
-            .setSmallIcon(R.drawable.preview_cloudy)
+            .setSmallIcon(R.drawable.logo)
             .setContentTitle("${alertHeadLine}")
             .setContentText(weatherDescription)
             .setContentIntent(pendingIntent)
@@ -201,7 +200,7 @@ class MainActivity : ComponentActivity() {
                         " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}C and lows to ${mintempC ?: "N/A"}C ,  ${condition ?: "N/A"}"
 
                     val builder = NotificationCompat.Builder(context, "weather_alerts")
-                        .setSmallIcon(R.drawable.preview_cloudy)
+                        .setSmallIcon(R.drawable.logo)
                         .setContentTitle("Today's Weather")
                         .setContentText(weatherDescription)
                         .setContentIntent(pendingIntent)

@@ -43,7 +43,7 @@ class NotificationReceiver : BroadcastReceiver() {
                     " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}C and lows to ${mintempC ?: "N/A"}C ,  ${condition ?: "N/A"}"
 
                 val builder = NotificationCompat.Builder(context, "weather_alerts")
-                    .setSmallIcon(R.drawable.preview_cloudy)
+                    .setSmallIcon(R.drawable.logo)
                     .setContentTitle("Today's Weather")
                     .setContentText(weatherDescription)
                     .setContentIntent(pendingIntent)
