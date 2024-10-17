@@ -21,7 +21,7 @@ import com.example.weatherapp.presentation.theme.WeatherAppTheme
 import com.example.weatherapp.util.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
-   // lateinit var locationBR : LocationBroadCastReciver
+   //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,8 +33,6 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 MainScreen(navController = navController)
                 val weatherViewModel : WeatherViewModel = viewModel()
-                //locationBR = LocationBroadCastReciver(weatherViewModel)
-                //registerReceiver(locationBR,IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
                 val sharedPreferences= this.getSharedPreferences("prefs",Context.MODE_PRIVATE)
                 weatherViewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
                 weatherViewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
@@ -50,26 +48,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        WeatherAppTheme {
-            val weatherViewModel: WeatherViewModel = viewModel()
-            val temp = weatherViewModel.casheddata?.current?.temp_c.toString()
-            val tempF = weatherViewModel.casheddata?.current?.temp_f.toString()
-            val p = weatherViewModel.casheddata?.current?.is_day.toString()
-            val p2 = weatherViewModel.casheddata?.current?.feelslike_c.toString()
-            val f: String = weatherViewModel.casheddata.toString()
-
-            }
-        }
-
-    override fun onDestroy() {
-        super.onDestroy()
-     //   unregisterReceiver(locationBR)
-    }
 }
 
 //package com.example.weatherapp
