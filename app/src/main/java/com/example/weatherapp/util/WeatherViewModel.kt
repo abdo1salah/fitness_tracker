@@ -18,10 +18,6 @@ import com.example.weatherapp.data.repository.WeatherRepo
 import com.example.weatherapp.location.CheckRequirements
 import com.example.weatherapp.location.LocationData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(app: Application) : AndroidViewModel(app) {
