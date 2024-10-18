@@ -4,7 +4,12 @@ import android.content.Context
 import com.example.weatherapp.data.local.DBHelper
 import com.example.weatherapp.data.network.WeatherApi
 import com.example.weatherapp.data.model.WeatherResponse
+import com.example.weatherapp.data.network.ENDPOINT
+import com.example.weatherapp.data.network.changeWeatherLocation
+import com.example.weatherapp.data.network.getEndPoint
+import com.example.weatherapp.location.LocationData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class WeatherRepo(context: Context) {
@@ -13,6 +18,7 @@ class WeatherRepo(context: Context) {
     suspend fun getCashedData(): WeatherResponse {
         return db.weetherDao().getWeather()
     }
+    val locationData = LocationData(context)
 
    /* suspend fun refreshData() {
         withContext(Dispatchers.IO) {
@@ -22,8 +28,8 @@ class WeatherRepo(context: Context) {
     }*/
    suspend fun refreshData() {
        withContext(Dispatchers.IO) {
-           val locationData = locationData.getLastLocation().first()
-           val weatherData = WeatherApi.retrofitService.getData(ENDPOINT)
+           val locationData = locationData.getLastLocation().first()!!
+           val weatherData = WeatherApi.retrofitService.getData(getEndPoint(locationData.latitude,locationData.longitude))
            db.weetherDao().insertWeatherData(weatherData)
        }
    }
@@ -33,7 +39,7 @@ class WeatherRepo(context: Context) {
         return withContext(Dispatchers.IO) {
             changeWeatherLocation(lat, lon)
             val locationWeatherData = WeatherApi.retrofitService.getData(ENDPOINT)
-            db.weetherDao().insertWeatherData(locationWeatherData)
+           // db.weetherDao().insertWeatherData(locationWeatherData)
             locationWeatherData
         }
     }

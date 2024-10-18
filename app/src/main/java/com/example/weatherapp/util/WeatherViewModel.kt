@@ -22,6 +22,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     private val repo = WeatherRepo(app)
     var casheddata: WeatherResponse? by mutableStateOf(null)
     var searchData: List<SearchItem> by mutableStateOf(emptyList())
+    var searchedData : WeatherResponse? by mutableStateOf(null)
     var hasPermission: Boolean by mutableStateOf(true)
     var hasInternet: Boolean by mutableStateOf(true)
     var hasGps: Boolean by mutableStateOf(true)
@@ -60,7 +61,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
     fun fetchWeatherDataForLocation(lat: String, lon: String) {
         viewModelScope.launch {
             try {
-                casheddata = repo.getWeatherDataForLocation(lat, lon)
+                searchedData = repo.getWeatherDataForLocation(lat, lon)
             } catch (e: Exception) {
                 Log.d("trace", e.message.toString())
             }
@@ -72,7 +73,7 @@ class WeatherViewModel(app: Application) : AndroidViewModel(app) {
             casheddata = repo.getCashedData()
         }
         hasPermission = CheckRequirements.hasPermission(app)
-        //refreshData()
+        refreshData()
     }
 
 

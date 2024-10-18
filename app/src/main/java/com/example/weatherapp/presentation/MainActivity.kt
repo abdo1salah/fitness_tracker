@@ -7,7 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
-package com.example.weatherapp
 
 import android.content.Context
 import android.content.Intent
@@ -71,23 +70,23 @@ class MainActivity : ComponentActivity() {
                 weatherViewModel.refreshData()
 
                 // Log fetched data
-                weatherViewModel.casheddata?.let {
-                    Log.d("WeatherDataFetch", "Fetched data: ${it}")
+
 
                 val navController = rememberNavController()
                 MainScreen(navController = navController)
-                val weatherViewModel : WeatherViewModel = viewModel()
-                val sharedPreferences= this.getSharedPreferences("prefs",Context.MODE_PRIVATE)
-                weatherViewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
-                weatherViewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
+                //val weatherViewModel : WeatherViewModel = viewModel()
+
                 Surface(
                     color = MaterialTheme.colorScheme.background
-                    // Check if alerts are available and send alert notification if so
-                    if (it.alerts?.alert?.isNotEmpty() == true) {
-                        sendAlertNotification()
-                    }
-                }
+                ) {}
+                // Check if alerts are available and send alert notification if so
 
+            }
+            weatherViewModel.casheddata?.let {
+                Log.d("WeatherDataFetch", "Fetched data: ${it}")
+                if (it.alerts?.alert?.isNotEmpty() == true) {
+                    sendAlertNotification()
+                }
 
                 // Box layout
                 Box(
@@ -114,8 +113,8 @@ class MainActivity : ComponentActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 1) // 6 AM
-            set(Calendar.MINUTE, 19)
+            set(Calendar.HOUR_OF_DAY, 7) // 6 AM
+            set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
 
@@ -136,8 +135,8 @@ class MainActivity : ComponentActivity() {
         )
 
 
-                   // HomeScreen(viewModel= weatherViewModel )
-                }
+        // HomeScreen(viewModel= weatherViewModel )
+    }
 
 
     @SuppressLint("NewApi")
@@ -186,6 +185,7 @@ class MainActivity : ComponentActivity() {
 
         NotificationManagerCompat.from(this).notify(99, notification)
     }
+
     class NotificationReceiver : BroadcastReceiver() {
         companion object {
             private const val REQUEST_CODE_MAIN_ACTIVITY = 101
@@ -194,6 +194,8 @@ class MainActivity : ComponentActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             Log.d("NotificationReceiver", "onReceive: alarm Triggered")
             val weatherRepo = WeatherRepo(context)
+            val sharedPreferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            val tempUnit = sharedPreferences.getString("Temperature Unit", "Celsius (°C)")
             CoroutineScope(Dispatchers.IO).launch {
                 val weatherData = weatherRepo.getCashedData()
                 withContext(Dispatchers.Main) {
@@ -201,8 +203,14 @@ class MainActivity : ComponentActivity() {
                     val condition = weatherData.current?.condition?.text
                     val location = weatherData.location?.name
                     val region = weatherData.location?.region
-                    val maxtempC = weatherData.forecast?.forecastday?.get(0)?.day?.maxtemp_c?.toInt()
-                    val mintempC = weatherData.forecast?.forecastday?.get(0)?.day?.mintemp_c?.toInt()
+                    val maxtempC =
+                        if (tempUnit == "Celsius (°C)") weatherData.forecast.forecastday.get(0).day
+                            .maxtemp_c.toInt() else weatherData.forecast.forecastday.get(0)
+                                .day.maxtemp_f.toInt()
+                    val mintempC =
+                        if (tempUnit == "Celsius (°C)") weatherData.forecast.forecastday.get(0)
+                    .day.mintemp_c.toInt() else weatherData.forecast.forecastday.get(0)
+                        .day.mintemp_f.toInt()
                     val intent = Intent(context, MainActivity::class.java)
                     val pendingIntent = PendingIntent.getActivity(
                         context.applicationContext,
@@ -211,7 +219,7 @@ class MainActivity : ComponentActivity() {
                         PendingIntent.FLAG_IMMUTABLE
                     )
                     val weatherDescription =
-                        " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}C and lows to ${mintempC ?: "N/A"}C ,  ${condition ?: "N/A"}"
+                        " ${region ?: "N/A"},  ${location ?: "N/A"} highs to ${maxtempC ?: "N/A"}${if (tempUnit == "Celsius (°C)") "C" else "F" } and lows to ${mintempC ?: "N/A"}${if (tempUnit == "Celsius (°C)") "C" else "F" } ,  ${condition ?: "N/A"}"
 
                     val builder = NotificationCompat.Builder(context, "weather_alerts")
                         .setSmallIcon(R.drawable.sun)

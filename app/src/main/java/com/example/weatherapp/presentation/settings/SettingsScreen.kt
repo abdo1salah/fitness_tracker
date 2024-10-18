@@ -5,11 +5,15 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,21 +37,24 @@ import com.example.weatherapp.util.WeatherViewModel
 fun SettingsScreen(viewModel: WeatherViewModel) {
 
     val sharedPref = LocalContext.current.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-    viewModel.selectedTempUnit = sharedPref.getString("Temperature Unit","Celsius (°C)")!!
-    viewModel.selectedWindSpeedUnit = sharedPref.getString("Wind Speed Unit","Kilometers (km/h)")!!
+    viewModel.selectedTempUnit = sharedPref.getString("Temperature Unit", "Celsius (°C)")!!
+    viewModel.selectedWindSpeedUnit = sharedPref.getString("Wind Speed Unit", "Kilometers (km/h)")!!
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(56.dp),
+            .padding(56.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Settings",
+        Text(
+            text = "Settings",
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.primary)
+            color = MaterialTheme.colors.primary
+        )
 
         // Temperature Unit Dropdown
         DropdownSettingItem(
@@ -56,7 +63,8 @@ fun SettingsScreen(viewModel: WeatherViewModel) {
             selectedOption = viewModel.selectedTempUnit,
             onOptionSelected = {
                 Log.d("trace", it)
-                viewModel.selectedTempUnit = it }
+                viewModel.selectedTempUnit = it
+            }
         )
 
         // Wind Speed Unit Dropdown
