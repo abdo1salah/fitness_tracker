@@ -1,6 +1,7 @@
 package com.example.weatherapp.ui
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.util.Log
@@ -30,6 +31,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,6 +71,9 @@ import com.example.weatherapp.util.WeatherViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(viewModel: WeatherViewModel) {
+    val sharedPreferences= LocalContext.current.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+    viewModel.selectedTempUnit = sharedPreferences.getString("Temperature Unit","Celsius (°C)")!!
+    viewModel.selectedWindSpeedUnit = sharedPreferences.getString("Wind Speed Unit","Kilometers (km/h)")!!
     var isDialogGpsShown: Boolean by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val locationData = LocationData(context)

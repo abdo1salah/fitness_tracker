@@ -99,8 +99,13 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
     }
 
+    override fun onStart() {
+        super.onStart()
+        weatherViewModel.refreshData()
+    }
     private fun scheduleDailyNotification() {
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, NotificationReceiver::class.java)
