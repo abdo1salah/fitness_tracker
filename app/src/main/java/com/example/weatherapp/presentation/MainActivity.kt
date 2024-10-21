@@ -82,6 +82,7 @@ class MainActivity : ComponentActivity() {
                 // Check if alerts are available and send alert notification if so
 
             }
+
             weatherViewModel.casheddata?.let {
                 Log.d("WeatherDataFetch", "Fetched data: ${it}")
                 if (it.alerts?.alert?.isNotEmpty() == true) {
@@ -151,7 +152,8 @@ class MainActivity : ComponentActivity() {
                 if (isGranted) {
                     scheduleDailyNotification()
                 } else {
-                    isDialogShown.value = false
+                    isDialogShown.value = true
+
                 }
             }
         return launcher
@@ -211,11 +213,11 @@ class MainActivity : ComponentActivity() {
                     val maxtempC =
                         if (tempUnit == "Celsius (°C)") weatherData.forecast.forecastday.get(0).day
                             .maxtemp_c.toInt() else weatherData.forecast.forecastday.get(0)
-                                .day.maxtemp_f.toInt()
+                            .day.maxtemp_f.toInt()
                     val mintempC =
                         if (tempUnit == "Celsius (°C)") weatherData.forecast.forecastday.get(0)
-                    .day.mintemp_c.toInt() else weatherData.forecast.forecastday.get(0)
-                        .day.mintemp_f.toInt()
+                            .day.mintemp_c.toInt() else weatherData.forecast.forecastday.get(0)
+                            .day.mintemp_f.toInt()
                     val intent = Intent(context, MainActivity::class.java)
                     val pendingIntent = PendingIntent.getActivity(
                         context.applicationContext,
