@@ -1,17 +1,16 @@
-package com.example.weatherapp.util
+package com.example.weatherapp.viewModel
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.SearchApi.SEARCHENDPOINT
-import com.example.weatherapp.data.SearchApi.SearchApi
-import com.example.weatherapp.data.SearchApi.SearchItem
-import com.example.weatherapp.data.SearchApi.getSearchEndPoint
+import com.example.weatherapp.data.network.SEARCHENDPOINT
+import com.example.weatherapp.data.network.SearchApi
+import com.example.weatherapp.data.model.SearchItem
+import com.example.weatherapp.data.network.getSearchEndPoint
 import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.data.repository.WeatherRepo
 import com.example.weatherapp.location.CheckRequirements

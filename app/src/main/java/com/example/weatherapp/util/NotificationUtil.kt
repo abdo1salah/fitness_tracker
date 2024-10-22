@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.weatherapp.presentation.MainActivity
 import com.example.weatherapp.R
+import com.example.weatherapp.viewModel.WeatherViewModel
 
 class NotificationUtil {
     object NotificationUtil {

@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.SearchApi
+package com.example.weatherapp.data.model
 
 data class SearchItem(
     val country: String,

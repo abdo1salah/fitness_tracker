@@ -1,6 +1,5 @@
 package com.example.weatherapp.presentation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -23,7 +22,7 @@ import com.example.weatherapp.location.PermissionDeniedDialog
 import com.example.weatherapp.presentation.navigation.NavItem
 import com.example.weatherapp.presentation.navigation.WeatherBottomNavigationBar
 import com.example.weatherapp.presentation.navigation.WeatherNavHost
-import com.example.weatherapp.util.WeatherViewModel
+import com.example.weatherapp.viewModel.WeatherViewModel
 
 @Composable
 fun MainScreen(navController: NavHostController, modifier: Modifier = Modifier) {

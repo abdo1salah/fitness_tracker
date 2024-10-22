@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.util
 
 import android.content.Intent
 import android.net.Uri
@@ -21,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.example.weatherapp.R
 
 @Composable
 fun permissionDenied(onDialogShown: () -> Unit) {

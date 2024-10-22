@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.example.weatherapp.R
 import com.example.weatherapp.data.network.changeWeatherLocation
-import com.example.weatherapp.util.WeatherViewModel
+import com.example.weatherapp.viewModel.WeatherViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult

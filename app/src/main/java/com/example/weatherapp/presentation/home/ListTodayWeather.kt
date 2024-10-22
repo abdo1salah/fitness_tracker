@@ -9,23 +9,16 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.weatherapp.data.local.Constants.DEGREE
-import com.example.weatherapp.data.local.Constants.IMAGE_URL
-import com.example.weatherapp.data.local.Constants.SIZE
-import com.example.weatherapp.data.model.Forecastday
 import com.example.weatherapp.data.model.Hour
 import com.example.weatherapp.presentation.theme.SMALL_MARGIN
-import com.example.weatherapp.util.WeatherViewModel
+import com.example.weatherapp.viewModel.WeatherViewModel
 
 @ExperimentalCoilApi
 @Composable

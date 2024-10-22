@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.SearchApi
+package com.example.weatherapp.data.network
 
 object SearchApi {
     val searchService : SearchCallable by lazy {
