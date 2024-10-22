@@ -2,6 +2,7 @@ package com.example.weatherapp.data.repository
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import com.example.weatherapp.data.local.DBHelper
 import com.example.weatherapp.data.model.WeatherResponse
 import com.example.weatherapp.data.network.ENDPOINT
@@ -33,11 +34,12 @@ class WeatherRepo(val context: Context) {
         withContext(Dispatchers.IO) {
             try {
                 locationData = LocationData(context).getLastLocation().first()!!
+                getEndPoint(
+                    locationData.latitude,
+                    locationData.longitude
+                )
                 val weatherData = WeatherApi.retrofitService.getData(
-                    getEndPoint(
-                        locationData.latitude,
-                        locationData.longitude
-                    )
+                    ENDPOINT
                 )
                 db.weetherDao().insertWeatherData(weatherData)
                 val editor = context.getSharedPreferences("location", Context.MODE_PRIVATE).edit()
@@ -48,12 +50,14 @@ class WeatherRepo(val context: Context) {
                 val preferences = context.getSharedPreferences("location", Context.MODE_PRIVATE)
                 val savedLat = preferences.getString("lat", null)
                 val savedLong = preferences.getString("long", null)
+                Log.d("trace","shared: ${savedLong}   ${savedLat}")
                 if (savedLong != null && savedLat != null) {
+                    getEndPoint(
+                        savedLat.toDouble(),
+                        savedLong.toDouble()
+                    )
                     val weatherData = WeatherApi.retrofitService.getData(
-                        getEndPoint(
-                            savedLat.toDouble(),
-                            savedLong.toDouble()
-                        )
+                        ENDPOINT
                     )
                     db.weetherDao().insertWeatherData(weatherData)
                 }
