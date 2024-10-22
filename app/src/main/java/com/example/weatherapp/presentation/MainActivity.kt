@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 7) // 6 AM
+            set(Calendar.HOUR_OF_DAY, 7) // 7 AM
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
