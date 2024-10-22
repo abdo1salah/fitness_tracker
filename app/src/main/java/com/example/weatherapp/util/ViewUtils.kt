@@ -36,10 +36,7 @@ fun Context.toast(message: String?) {
 }
 
 
-fun getLocal(): String {
-    val lang = Locale.getDefault().language
-    return if (lang != EN && lang != AR) EN else lang
-}
+
 
 @Composable
 fun Line(
@@ -55,22 +52,6 @@ fun Line(
 }
 
 
-fun convertUnixDate(unix: Int,format:String): String {
-    val currentDate = Date(unix.toLong() * 1000)
-    val dateFormat = SimpleDateFormat(format, Locale.getDefault())
-    return dateFormat.format(currentDate)
-}
-
-fun formatDate(dateFormat: String): String {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern(dateFormat)
-        current.format(formatter)
-    } else {
-        val formatter = SimpleDateFormat(dateFormat, Locale.ENGLISH)
-        formatter.format(Date())
-    }
-}
 
 
 @Composable
