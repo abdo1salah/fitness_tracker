@@ -101,16 +101,6 @@ fun Circle(
     }
 }
 
-//
-//fun Context.handleApiError(
-//    failure: Resource.Failure
-//) {
-//    when {
-//        failure.isNetworkError -> toast(getString(R.string.connection_error))
-//        failure.errorCode == 404 -> toast(getString(R.string.not_found))
-//        failure.errorCode == 422 -> toast(getString(R.string.invalid_auth))
-//        else -> toast(getString(R.string.not_found))
-//    }
-//}
+
 
 
