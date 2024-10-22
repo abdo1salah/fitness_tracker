@@ -151,7 +151,7 @@ class MainActivity : ComponentActivity() {
                 if (isGranted) {
                     scheduleDailyNotification()
                 } else {
-                    isDialogShown.value = false
+                    isDialogShown.value = true
                 }
             }
         return launcher
