@@ -4,7 +4,9 @@ import android.database.Cursor;
 import android.os.CancellationSignal;
 import androidx.annotation.NonNull;
 import androidx.room.CoroutinesRoom;
+import androidx.room.EntityDeletionOrUpdateAdapter;
 import androidx.room.EntityInsertionAdapter;
+import androidx.room.EntityUpsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.util.CursorUtil;
@@ -37,17 +39,17 @@ import kotlin.coroutines.Continuation;
 public final class WeatherDao_Impl implements WeatherDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter<WeatherResponse> __insertionAdapterOfWeatherResponse;
+  private final EntityUpsertionAdapter<WeatherResponse> __upsertionAdapterOfWeatherResponse;
 
   private final Converters __converters = new Converters();
 
   public WeatherDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
-    this.__insertionAdapterOfWeatherResponse = new EntityInsertionAdapter<WeatherResponse>(__db) {
+    this.__upsertionAdapterOfWeatherResponse = new EntityUpsertionAdapter<WeatherResponse>(new EntityInsertionAdapter<WeatherResponse>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR REPLACE INTO `weather` (`id`,`alert`,`currentcloud`,`currentfeelslike_c`,`currentfeelslike_f`,`currentgust_kph`,`currenthumidity`,`currentis_day`,`currentprecip_in`,`currentprecip_mm`,`currentpressure_in`,`currentpressure_mb`,`currenttemp_c`,`currenttemp_f`,`currentuv`,`currentvis_km`,`currentvis_miles`,`currentwind_degree`,`currentwind_kph`,`currentwind_mph`,`currentcode`,`currenticon`,`currenttext`,`forecastforecastday`,`locationcountry`,`locationlat`,`locationlocaltime`,`locationlocaltime_epoch`,`locationlon`,`locationname`,`locationregion`,`locationtz_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT INTO `weather` (`id`,`alert`,`currentcloud`,`currentfeelslike_c`,`currentfeelslike_f`,`currentgust_kph`,`currenthumidity`,`currentis_day`,`currentprecip_in`,`currentprecip_mm`,`currentpressure_in`,`currentpressure_mb`,`currenttemp_c`,`currenttemp_f`,`currentuv`,`currentvis_km`,`currentvis_miles`,`currentwind_degree`,`currentwind_kph`,`currentwind_mph`,`currentcode`,`currenticon`,`currenttext`,`forecastforecastday`,`locationcountry`,`locationlat`,`locationlocaltime`,`locationlocaltime_epoch`,`locationlon`,`locationname`,`locationregion`,`locationtz_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -93,7 +95,58 @@ public final class WeatherDao_Impl implements WeatherDao {
         statement.bindString(31, _tmpLocation.getRegion());
         statement.bindString(32, _tmpLocation.getTz_id());
       }
-    };
+    }, new EntityDeletionOrUpdateAdapter<WeatherResponse>(__db) {
+      @Override
+      @NonNull
+      protected String createQuery() {
+        return "UPDATE `weather` SET `id` = ?,`alert` = ?,`currentcloud` = ?,`currentfeelslike_c` = ?,`currentfeelslike_f` = ?,`currentgust_kph` = ?,`currenthumidity` = ?,`currentis_day` = ?,`currentprecip_in` = ?,`currentprecip_mm` = ?,`currentpressure_in` = ?,`currentpressure_mb` = ?,`currenttemp_c` = ?,`currenttemp_f` = ?,`currentuv` = ?,`currentvis_km` = ?,`currentvis_miles` = ?,`currentwind_degree` = ?,`currentwind_kph` = ?,`currentwind_mph` = ?,`currentcode` = ?,`currenticon` = ?,`currenttext` = ?,`forecastforecastday` = ?,`locationcountry` = ?,`locationlat` = ?,`locationlocaltime` = ?,`locationlocaltime_epoch` = ?,`locationlon` = ?,`locationname` = ?,`locationregion` = ?,`locationtz_id` = ? WHERE `id` = ?";
+      }
+
+      @Override
+      protected void bind(@NonNull final SupportSQLiteStatement statement,
+          @NonNull final WeatherResponse entity) {
+        statement.bindLong(1, entity.getId());
+        final Alerts _tmpAlerts = entity.getAlerts();
+        final String _tmp = __converters.listToJson(_tmpAlerts.getAlert());
+        statement.bindString(2, _tmp);
+        final Current _tmpCurrent = entity.getCurrent();
+        statement.bindLong(3, _tmpCurrent.getCloud());
+        statement.bindDouble(4, _tmpCurrent.getFeelslike_c());
+        statement.bindDouble(5, _tmpCurrent.getFeelslike_f());
+        statement.bindDouble(6, _tmpCurrent.getGust_kph());
+        statement.bindLong(7, _tmpCurrent.getHumidity());
+        statement.bindLong(8, _tmpCurrent.is_day());
+        statement.bindDouble(9, _tmpCurrent.getPrecip_in());
+        statement.bindDouble(10, _tmpCurrent.getPrecip_mm());
+        statement.bindDouble(11, _tmpCurrent.getPressure_in());
+        statement.bindDouble(12, _tmpCurrent.getPressure_mb());
+        statement.bindDouble(13, _tmpCurrent.getTemp_c());
+        statement.bindDouble(14, _tmpCurrent.getTemp_f());
+        statement.bindDouble(15, _tmpCurrent.getUv());
+        statement.bindDouble(16, _tmpCurrent.getVis_km());
+        statement.bindDouble(17, _tmpCurrent.getVis_miles());
+        statement.bindLong(18, _tmpCurrent.getWind_degree());
+        statement.bindDouble(19, _tmpCurrent.getWind_kph());
+        statement.bindDouble(20, _tmpCurrent.getWind_mph());
+        final Condition _tmpCondition = _tmpCurrent.getCondition();
+        statement.bindLong(21, _tmpCondition.getCode());
+        statement.bindString(22, _tmpCondition.getIcon());
+        statement.bindString(23, _tmpCondition.getText());
+        final Forecast _tmpForecast = entity.getForecast();
+        final String _tmp_1 = __converters.foreCastDayJistToJson(_tmpForecast.getForecastday());
+        statement.bindString(24, _tmp_1);
+        final Location _tmpLocation = entity.getLocation();
+        statement.bindString(25, _tmpLocation.getCountry());
+        statement.bindDouble(26, _tmpLocation.getLat());
+        statement.bindString(27, _tmpLocation.getLocaltime());
+        statement.bindLong(28, _tmpLocation.getLocaltime_epoch());
+        statement.bindDouble(29, _tmpLocation.getLon());
+        statement.bindString(30, _tmpLocation.getName());
+        statement.bindString(31, _tmpLocation.getRegion());
+        statement.bindString(32, _tmpLocation.getTz_id());
+        statement.bindLong(33, entity.getId());
+      }
+    });
   }
 
   @Override
@@ -105,7 +158,7 @@ public final class WeatherDao_Impl implements WeatherDao {
       public Unit call() throws Exception {
         __db.beginTransaction();
         try {
-          __insertionAdapterOfWeatherResponse.insert(weatherResponse);
+          __upsertionAdapterOfWeatherResponse.upsert(weatherResponse);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
