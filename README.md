@@ -3,7 +3,8 @@
 # Overview
 
 This Weather App provides real-time weather information for locations around the world. It uses the Room Database for local storage, Retrofit for network requests, and Google Location Services to fetch the user's current location.
-Features
+
+# Features
 
 Real-time Weather Data: Fetches up-to-date weather information, including temperature, humidity, wind speed, and weather conditions.
 
